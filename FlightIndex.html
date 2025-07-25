@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tourly - Flight Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+    /* General Reset and Body Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    ion-icon { pointer-events: none; }
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cultured); /* Light background from Tourly */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+    }
+
+    /* Reused styles from Tourly for consistency */
+    .container {
+      padding-inline: 15px;
+      max-width: 960px; /* Adjust as per your layout needs */
+      margin: 2rem auto;
+    }
+
+    .btn {
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: var(--fs-5);
+      border-radius: 100px;
+      padding: var(--padding, 8px 18px);
+      border: var(--border-width, 2px) solid transparent;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--bright-navy-blue);
+      border-color: var(--bright-navy-blue);
+    }
+
+    .btn-primary:is(:hover, :focus) {
+      background: var(--yale-blue);
+      border-color: var(--yale-blue);
+    }
+
+    .h2, .h3 {
+      font-weight: var(--fw-800);
+      font-family: var(--ff-montserrat);
+      color: var(--gunmetal); /* Dark text for headings */
+      text-transform: uppercase;
+    }
+
+    .h2 { font-size: var(--fs-2); }
+    .h3 {
+      font-size: var(--fs-3);
+      font-weight: var(--fw-700);
+    }
+
+    /* Header (mimicking Tourly's main header) */
+    header {
+      background: var(--gunmetal); /* Dark header from Tourly */
+      color: var(--white);
+      text-align: center;
+      padding: 20px 0; /* Adjusted padding */
+      box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
+      position: relative; /* Needed for z-index with navbar */
+      z-index: 1; /* Below navbar, but above page content */
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: var(--fs-2); /* Responsive font size */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+    }
+
+    /* Navbar styling (mimicking Tourly's header-bottom) */
+    .header-bottom {
+      background: var(--gunmetal) !important; /* Ensure dark background */
+      border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+      padding-block: 15px;
+      position: relative;
+      z-index: 4; /* Higher z-index to appear above header content */
+    }
+
+    .header-bottom .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1180px; /* Max width for consistency */
+      margin-inline: auto;
+      padding-block: 0; /* Reset for flex alignment */
+    }
+
+    .navbar-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px; /* Spacing between nav items */
+    }
+
+    .navbar-link {
+      color: var(--black) !important; /* Force white color for visibility */
+      font-size: var(--fs-4);
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+      padding: 20px 15px;
+      transition: var(--transition);
+    }
+
+    .navbar-link:is(:hover, :focus) {
+      color: var(--bright-navy-blue) !important; /* Force bright blue on hover */
+    }
+
+    /* Navbar Dropdown */
+    .navbar-list .has-dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 150px;
+        background: var(--white) !important; /* Ensure white background for dropdown */
+        border-radius: var(--radius-15);
+        box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        z-index: 5;
+        padding: 10px 0;
+    }
+
+    .navbar-list .has-dropdown:hover .dropdown-menu,
+    .navbar-list .has-dropdown:focus-within .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--jet) !important; /* Force dark text for dropdown links */
+        font-size: var(--fs-5);
+        font-weight: var(--fw-500);
+        text-transform: capitalize;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-link:is(:hover, :focus) {
+        background-color: var(--cultured) !important; /* Light background on hover */
+        color: var(--bright-navy-blue) !important; /* Bright blue on hover */
+    }
+    .navbar-list .has-dropdown .navbar-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .navbar-list .has-dropdown .navbar-link ion-icon {
+        font-size: 16px;
+    }
+
+    /* Main Container (Flight Search) */
+    .container {
+      background: var(--white);
+      border-radius: var(--radius-15); /* Rounded corners */
+      box-shadow: 0 0 25px hsla(0, 0%, 0%, 0.08); /* Soft shadow */
+      padding: 30px; /* Increased padding */
+      margin-top: 30px; /* Space from header */
+    }
+
+    .search-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px; /* More spacing */
+      justify-content: center;
+      margin-bottom: 25px; /* More margin */
+    }
+
+    .search-form input {
+      flex: 1 1 200px; /* Slightly larger input fields */
+      padding: 12px 18px; /* Increased padding */
+      font-size: var(--fs-5); /* Font size from theme */
+      border: 1px solid var(--gainsboro); /* Border from theme */
+      border-radius: 50px; /* Rounded input fields */
+      color: var(--jet); /* Text color */
+      outline: none; /* Remove default outline */
+      transition: border-color var(--transition);
+    }
+
+    .search-form input:focus {
+      border-color: var(--bright-navy-blue); /* Highlight on focus */
+    }
+
+    .search-button-container {
+      text-align: center;
+      margin-top: 20px; /* More margin */
+    }
+
+    .search-button-container button {
+      padding: 12px 30px; /* Larger button */
+      font-size: var(--fs-5);
+      border-radius: 100px; /* Fully rounded button */
+      background-color: var(--bright-navy-blue); /* Primary button color */
+      color: var(--white);
+      border: 2px solid var(--bright-navy-blue);
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .search-button-container button:hover {
+      background-color: var(--yale-blue); /* Hover color */
+      border-color: var(--yale-blue);
+    }
+
+    .results h3 {
+      text-align: center;
+      color: var(--bright-navy-blue); /* Primary color for results heading */
+      margin-top: 30px; /* Space for results */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+    }
+
+    /* Flight Card Styling */
+    .flight-card {
+      display: flex;
+      background: var(--cultured); /* Light background for cards */
+      border: 1px solid var(--gainsboro);
+      border-radius: var(--radius-15); /* Rounded corners */
+      padding: 20px; /* Increased padding */
+      margin: 20px auto; /* Margin for separation */
+      width: 100%;
+      max-width: 900px;
+      gap: 20px; /* Increased gap */
+      align-items: center;
+      box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.05); /* Soft shadow */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .flight-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .flight-card img {
+      width: 180px; /* Slightly larger image */
+      height: 120px; /* Fixed height for consistency */
+      object-fit: cover; /* Ensure image covers the area */
+      border-radius: var(--radius-15);
+    }
+
+    .flight-desc {
+      flex: 1;
+      text-align: left; /* Align description to left */
+      padding: 0 10px;
+      font-style: normal; /* Remove italic */
+      color: var(--black-coral); /* Standard text color */
+      font-size: var(--fs-5);
+    }
+
+    .flight-info {
+      flex: 1.2; /* Give more space to info */
+    }
+
+    .flight-info h4 {
+      margin: 0 0 10px;
+      color: var(--oxford-blue); /* Dark blue for airline name */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      font-size: var(--fs-4);
+    }
+
+    .flight-info p {
+      margin: 6px 0;
+      color: var(--jet); /* Darker text for info */
+      font-family: var(--ff-poppins); /* Use poppins for info text */
+      font-size: var(--fs-5);
+    }
+
+    .flight-info p strong {
+        color: var(--bright-navy-blue); /* Highlight strong labels */
+    }
+
+    .book-btn {
+      background-color: var(--united-nations-blue); /* Blue for book button */
+      color: var(--white);
+      padding: 10px 20px;
+      border: none;
+      border-radius: 100px; /* Rounded button */
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 15px;
+      font-size: var(--fs-5);
+    }
+
+    .book-btn:hover {
+      background-color: var(--yale-blue); /* Darker blue on hover */
+    }
+
+    /* Offers Section */
+    .offers-section {
+        padding-block: var(--section-padding);
+        background: var(--white); /* White background for the section */
+        text-align: center;
+        margin-top: -35px;
+    }
+
+    .offers-section h2 {
+        margin-bottom: 40px;
+        color: var(--gunmetal);
+    }
+
+    .offers-carousel {
+        display: flex;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        scroll-snap-type: x mandatory; /* Snap to cards */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        gap: 25px; /* Space between cards */
+        padding-bottom: 20px; /* Space for scrollbar */
+        padding-inline: 15px; /* Ensure padding on edges */
+    }
+
+    .offers-carousel::-webkit-scrollbar {
+        height: 8px;
+    }
+    .offers-carousel::-webkit-scrollbar-thumb {
+        background: var(--bright-navy-blue);
+        border-radius: 10px;
+    }
+    .offers-carousel::-webkit-scrollbar-track {
+        background: var(--gainsboro);
+        border-radius: 10px;
+    }
+
+    .offer-card {
+        flex: 0 0 300px; /* Fixed width, no shrinking/growing */
+        scroll-snap-align: start; /* Snap to start of card */
+        background: var(--bright-navy-blue) !important; /* Blue background for offer cards */
+        border-radius: var(--radius-15);
+        box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.05);
+        padding: 20px;
+        text-align: left;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        color: var(--white); /* Ensure text is white for contrast */
+    }
+
+    .offer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .offer-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: var(--radius-15);
+        margin-bottom: 15px;
+    }
+
+    .offer-card h3 {
+        color: var(--white) !important; /* Ensure heading is white */
+        font-family: var(--ff-montserrat);
+        font-weight: var(--fw-700);
+        font-size: var(--fs-4);
+        margin-bottom: 10px;
+    }
+
+    .offer-card p {
+        color: var(--cultured) !important; /* Slightly off-white for body text */
+        font-size: var(--fs-5);
+        margin-bottom: 5px;
+    }
+
+    .offer-card .price {
+        color: var(--white) !important; /* Ensure price is white */
+        font-size: var(--fs-3);
+        font-weight: var(--fw-700);
+        margin-top: 15px;
+    }
+    .offer-card .price span {
+        font-size: var(--fs-6);
+        color: var(--cultured) !important; /* Ensure small text is off-white */
+        font-weight: var(--fw-500);
+    }
+
+    /* Media Queries for responsiveness */
+    @media (min-width: 580px) {
+        .container { max-width: 580px; }
+        .search-form { flex-direction: row; }
+        .search-form input { flex: 1 1 180px; }
+        .offers-carousel { justify-content: center; } /* Center items when space allows */
+    }
+
+    @media (min-width: 768px) {
+        .container { max-width: 800px; padding: 40px; }
+        header { padding: 30px 0; }
+        .flight-card { flex-direction: row; text-align: left; }
+        .flight-card img { margin-bottom: 0; }
+        .search-form input { flex: 1 1 220px; }
+        .offers-carousel {
+            flex-wrap: nowrap;
+            justify-content: flex-start; /* Reset to left-align for sliding */
+        }
+        .offer-card {
+            flex: 0 0 calc(33.33% - 17px); /* 3 cards per row approx with gap */
+            max-width: 320px; /* Max width for consistency */
+        }
+    }
+
+    @media (min-width: 992px) {
+        .container { max-width: 1050px; }
+        .header-bottom .container { padding-block: 15px; } /* Restore padding */
+        .search-form input { flex: 1 1 180px; } /* More balanced flex */
+        .flight-card { max-width: 100%; }
+        .offers-carousel {
+            gap: 30px;
+        }
+        .offer-card {
+             flex: 0 0 calc(33.33% - 20px); /* 3 cards per row */
+             max-width: unset; /* Let flex control width */
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .container { max-width: 1180px; }
+        .offers-section { padding-block: var(--section-padding); }
+        .offer-card {
+            flex: 0 0 calc(25% - 22.5px); /* 4 cards per row */
+        }
+    }
+
+
+    .scroll-right-to-left {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    .scroll-right-to-left span {
+      display: inline-block;
+      padding-right: 100%;
+      animation: rightToLeftScroll 30s linear infinite; /* ← Change speed here */
+    }
+
+    @keyframes rightToLeftScroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="header-bottom">
+    <div class="container">
+      <ul class="navbar-list">
+        <li><a href="#" class="navbar-link"> </a></li>
+        <li><a href="#" class="navbar-link"> </a></li>
+        <li><a href="#" class="navbar-link"> </a></li>
+        <li><a href="index.html" class="navbar-link">HOME</a></li>
+        <li><a href="./Aboutus.html" class="navbar-link">ABOUT US</a></li>
+        <li class="has-dropdown">
+          <a href="#" class="navbar-link">Services <ion-icon name="chevron-down-outline"></ion-icon></a>
+          <ul class="dropdown-menu">
+            <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+            <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+            <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+          </ul>
+        </li>
+        <li><a href="./touristindex.html" class="navbar-link">PACKAGES</a></li>
+        <li><a href="index.html#gallery" class="navbar-link">Gallery</a></li>
+        <li><a href="./ContactUs.html" class="navbar-link">Contact Us</a></li>
+        <li><a href="./User.html" class="navbar-link">my Profile</a></li> </ul>
+      </div>
+  </div>
+
+<header>
+  <h1>Tourly - Book Your Flight</h1>
+</header>
+
+  
+
+
+<div class="container">
+  <form id="searchForm" class="search-form">
+    <input type="text" id="from" placeholder="From " required>
+    <input type="text" id="to" placeholder="To " required>
+    <input type="date" id="depart"  required>
+    <input type="number" id="passengers" placeholder="Travellers" value="1" min="1" required>
+  </form>
+
+  <div class="search-button-container">
+    <button type="submit" form="searchForm" class="btn btn-primary">Search</button>
+  </div>
+  <div class="scroll-right-to-left">
+    <span>Available Flights for Booking :  Delhi to Paris..... ||  Chennai to Singapore ...... ||  Hyderabad to Malaysia...... ||  Bangalore to Chennai.... ||  Mumbai to London...... </span>
+  </div>
+
+  <div id="flightResults" class="results"></div>
+</div>
+
+<section class="offers-section">
+    <div class="container">
+        <h2 class="h2">Exclusive Flight Offers</h2>
+        <div class="offers-carousel">
+            <div class="offer-card">
+                <img src="./assets/flight images/flight1.jpg" alt="Offer to Paris">
+                <h3>Paris Getaway</h3>
+                <p><strong>Airline:</strong> Air France</p>
+                <p><strong>From:</strong> Delhi</p>
+                <p><strong>To:</strong> Paris</p>
+                <p>Experience the romance of Paris with this exclusive deal!</p>
+                <p>Date: Flexible</p>
+                <p class="price">₹28,500 <span>/person</span></p>
+            </div>
+            <div class="offer-card">
+                <img src="./assets/flight images/flight2.jpg" alt="Offer to Singapore">
+                <h3>Singapore Discovery</h3>
+                <p><strong>Airline:</strong> Singapore Airlines</p>
+                <p><strong>From:</strong> Chennai</p>
+                <p><strong>To:</strong> Singapore</p>
+                <p>Explore the vibrant city-state of Singapore!</p>
+                <p>Date: Flexible</p>
+                <p class="price">₹15,200 <span>/person</span></p>
+            </div>
+            <div class="offer-card">
+                <img src="./assets/flight images/flight3.jpg" alt="Offer to Dubai">
+                <h3>Dubai City Break</h3>
+                <p><strong>Airline:</strong> Emirates</p>
+                <p><strong>From:</strong> Mumbai</p>
+                <p><strong>To:</strong> Dubai</p>
+                <p>Luxury awaits in the dazzling city of Dubai!</p>
+                <p>Date: Flexible</p>
+                <p class="price">₹19,800 <span>/person</span></p>
+            </div>
+            <div class="offer-card">
+                <img src="./assets/flight images/flight4.jpg" alt="Offer to Bangkok">
+                <h3>Bangkok Adventure</h3>
+                <p><strong>Airline:</strong> Thai Airways</p>
+                <p><strong>From:</strong> Kolkata</p>
+                <p><strong>To:</strong> Bangkok</p>
+                <p>Discover the vibrant street life of Bangkok!</p>
+                <p>Date: Flexible</p>
+                <p class="price">₹12,000 <span>/person</span></p>
+            </div>
+             <div class="offer-card">
+                <img src="./assets/flight images/flight5.jpg" alt="Offer to Maldives">
+                <h3>Maldives Bliss</h3>
+                <p><strong>Airline:</strong> Maldivian</p>
+                <p><strong>From:</strong> Bangalore</p>
+                <p><strong>To:</strong> Malé</p>
+                <p>Your dream island escape to the Maldives!</p>
+                <p>Date: Flexible</p>
+                <p class="price">₹35,000 <span>/person</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+  const mockFlights = [
+      {
+      airline: "IndiGo",
+      from: "Delhi",
+      to: "Paris",
+      price: "₹3,499",
+      time: "6:00 AM - 8:10 AM",
+      duration: "2h 10m",
+      image: "./assets/flight images/Indigo.jpeg",
+      description: "Enjoy a smooth and budget-friendly flight experience with IndiGo. Reliable service, on-time arrivals."
+    },
+    {
+      airline: "Air India",
+      from: "Delhi",
+      to: "Paris",
+      price: "₹4,999",
+      time: "9:45 AM - 12:15 PM",
+      duration: "2h 30m",
+      image: "./assets/flight images/Air India.jpeg",
+      description: "Air India's premium comfort and wide seating will make your international journey feel luxurious."
+    },
+    {
+      airline: "SpiceJet",
+      from: "Chennai",
+      to: "Singapore",
+      price: "₹3,999",
+      time: "1:20 PM - 3:35 PM",
+      duration: "2h 15m",
+      image: "./assets/flight images/flight4.jpg",
+      description: "Travel affordably without compromising on quality. SpiceJet gives you the best of both worlds."
+    },
+    {
+      airline: "Akasa Air",
+      from: "Delhi",
+      to: "Paris",
+      price: "₹4,499",
+      time: "4:30 PM - 6:45 PM",
+      duration: "2h 15m",
+      image: "./assets/flight images/Akasa Air.jpeg",
+      description: "Akasa Air brings freshness to the skies with new aircraft, clean cabins, and exceptional crew."
+    },
+    {
+      airline: "Vistara",
+      from: "Hyderabad",
+      to: "Malaysia",
+      price: "₹5,200",
+      time: "7:00 PM - 9:20 PM",
+      duration: "2h 20m",
+      image: "./assets/flight images/Vistara.jpeg",
+      description: "Fly with Vistara for a premium experience, complimentary meals, and exceptional hospitality."
+    },
+    {
+      airline: "Go First",
+      from: "Chennai",
+      to: "Singapore",
+      price: "₹3,999",
+      time: "10:00 AM - 12:05 PM",
+      duration: "2h 5m",
+      image: "./assets/flight images/flight3.jpg",
+      description: "Go First offers punctual flights and excellent baggage services at pocket-friendly prices."
+    },
+    {
+      airline: "AirAsia India",
+      from: "Delhi",
+      to: "Paris",
+      price: "₹4,199",
+      time: "8:30 AM - 10:45 AM",
+      duration: "2h 15m",
+      image: "./assets/flight images/Air Asia.jpeg",
+      description: "Experience low-cost flying with great comfort and services tailored to your travel needs."
+    },
+    {
+      airline: "Alliance Air",
+      from: "Bangalore",
+      to: "Chennai",
+      price: "₹2,999",
+      time: "6:15 AM - 7:25 AM",
+      duration: "1h 10m",
+      image: "./assets/flight images/flight1.jpg",
+      description: "Perfect for short hops with no fuss – Alliance Air is efficient and reliable."
+    },
+    {
+      airline: "TruJet",
+      from: "Hyderabad",
+      to: "Malaysia",
+      price: "₹3,800",
+      time: "11:30 AM - 1:40 PM",
+      duration: "2h 10m",
+      image: "./assets/flight images/flight5.jpg",
+      description: "TruJet is your friendly regional airline with personalized care and warm service."
+    },
+    {
+      airline: "Vistara",
+      from: "Delhi",
+      to: "Paris",
+      price: "₹3,499",
+      time: "6:00 AM - 8:10 AM",
+      duration: "2h 10m",
+      image: "./assets/flight images/Vistara.jpeg",
+      description: "Luxury meets affordability with Vistara. Enjoy a calm, premium experience at the best price."
+    },
+    {
+      airline: "Star Air",
+      from: "Mumbai",
+      to: "London",
+      price: "₹4,050",
+      time: "2:00 PM - 4:15 PM",
+      duration: "2h 15m",
+      image: "./assets/flight images/flight3.jpg",
+      description: "Fly smart with Star Air – known for modern fleets, timely take-offs, and great onboard vibes."
+    }
+  ];
+
+  document.getElementById("searchForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const from = document.getElementById("from").value.trim().toLowerCase();
+    const to = document.getElementById("to").value.trim().toLowerCase();
+    const depart = document.getElementById("depart").value;
+    const passengers = document.getElementById("passengers").value;
+
+    const resultsDiv = document.getElementById("flightResults");
+    resultsDiv.innerHTML = "";
+
+    let matchingFlights = [];
+
+    if (from && to) {
+      matchingFlights = mockFlights.filter(flight =>
+        flight.from.toLowerCase() === from &&
+        flight.to.toLowerCase() === to
+      );
+      resultsDiv.innerHTML = `<h3>Available Flights from ${from.toUpperCase()} to ${to.toUpperCase()} on ${depart}</h3>`;
+    } else {
+      matchingFlights = mockFlights;
+      resultsDiv.innerHTML = `<h3>All Available Flights (${depart || "Any Date"})</h3>`;
+    }
+
+    if (matchingFlights.length > 0) {
+      matchingFlights.forEach(flight => {
+        resultsDiv.innerHTML += `
+          <div class="flight-card">
+            <img src="${flight.image}" alt="${flight.airline}">
+            <div class="flight-desc">${flight.description}</div>
+            <div class="flight-info">
+              <h4>${flight.airline}</h4>
+              <p><strong>From:</strong> ${flight.from}</p>
+              <p><strong>To:</strong> ${flight.to}</p>
+              <p><strong>Time:</strong> ${flight.time}</p>
+              <p><strong>Duration:</strong> ${flight.duration}</p>
+              <p><strong>Price:</strong> ${flight.price}</p>
+              <button class="book-btn" onclick='bookNow(${JSON.stringify(flight).replace(/'/g, "\\'")}, ${passengers})'>Book Now</button>
+
+            </div>
+          </div>
+        `;
+      });
+    } else {
+      resultsDiv.innerHTML += `<h3>No flights found for your search</h3>`;
+    }
+  });
+
+  function bookNow(flight, passengers) {
+  const depart = document.getElementById("depart").value;
+  sessionStorage.setItem("selectedFlight", JSON.stringify(flight));
+  sessionStorage.setItem("passengers", passengers);
+  sessionStorage.setItem("depart", depart);
+  window.location.href = "FlightDetails.html";
+}
+
+</script>
+
+</body>
+</html>

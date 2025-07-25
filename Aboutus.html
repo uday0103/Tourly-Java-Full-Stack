@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Tourly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+    /* General Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    ion-icon { pointer-events: none; }
+
+    html {
+      font-family: var(--ff-poppins); /* Primary font for body */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #e0f7fa, #ffffff); /* Consistent background */
+      color: var(--black-coral);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Container for consistent content width */
+    .container {
+      padding-inline: 15px;
+      max-width: 1180px;
+      margin-inline: auto;
+    }
+
+    /* Navbar styling (consistent with other pages) */
+    .header-bottom {
+      background: var(--gunmetal) !important;
+      border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+      padding-block: 15px;
+      position: relative;
+      z-index: 4;
+      width: 100%;
+    }
+
+    .header-bottom .container {
+      display: flex;
+      justify-content: center; /* Centers the navbar list */
+      align-items: center;
+      max-width: 1180px;
+      margin-inline: auto;
+      padding-block: 0;
+    }
+
+    .navbar-list {
+      display: flex;
+      justify-content: center; /* Centers nav items */
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .navbar-link {
+      color: var(--white) !important;
+      font-size: var(--fs-4);
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+      padding: 20px 15px;
+      transition: var(--transition);
+    }
+
+    .navbar-link:is(:hover, :focus) {
+      color: var(--bright-navy-blue) !important;
+    }
+
+    /* Navbar Dropdown */
+    .navbar-list .has-dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 150px;
+        background: var(--white) !important;
+        border-radius: var(--radius-15);
+        box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.1);
+        z-index: 5;
+        padding: 10px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+
+    .navbar-list .has-dropdown:hover .dropdown-menu,
+    .navbar-list .has-dropdown:focus-within .dropdown-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--jet) !important;
+        font-size: var(--fs-5);
+        font-weight: var(--fw-500);
+        text-transform: capitalize;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-link:is(:hover, :focus) {
+        background-color: var(--cultured) !important;
+        color: var(--bright-navy-blue) !important;
+    }
+    .navbar-list .has-dropdown .navbar-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .navbar-list .has-dropdown .navbar-link ion-icon {
+        font-size: 16px;
+    }
+
+    /* Hero Banner Section */
+.hero-banner {
+ /* Removed background image and gradient */
+ background-color: transparent; /* Make the banner background transparent */
+ color: var(--oxford-blue); /* Change text color to a dark, readable color */
+ text-align: center;
+ padding: 80px 15px; /* Adjust padding for better spacing */
+ margin-bottom: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ min-height: auto; /* Adjust min-height as needed */
+}
+
+.hero-banner h1 {
+ font-family: var(--ff-montserrat);
+ font-size: var(--fs-1);
+ font-weight: var(--fw-800);
+ text-transform: uppercase;
+ letter-spacing: 2px;
+ /* Updated text shadow for better visibility on a light background */
+ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+ background: none; /* Remove any text background gradients */
+
+ -webkit-text-fill-color: initial;
+ animation: none; /* Remove any animations */
+ padding: 15px 30px; /* Add some padding around the text */
+ border-radius: var(--radius-15); /* Add a subtle rounded border */
+ background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background behind the text */
+}
+    @keyframes pulseGlow {
+      from {
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5),
+                     0 0 20px rgba(255, 255, 255, 0.2);
+      }
+      to {
+        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.7),
+                     0 0 30px rgba(255, 255, 255, 0.4);
+      }
+    }
+    /* ********* CHANGES END HERE ********* */
+
+    /* About Section */
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: var(--section-padding) 15px;
+      background-color: var(--white);
+      margin: 0 auto 40px; /* Adjust margin for spacing */
+      border-radius: var(--radius-15);
+      box-shadow: 0 8px 25px hsla(0, 0%, 0%, 0.08);
+      max-width: 1000px;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+      max-width: 550px;
+      padding: 20px;
+    }
+
+    .about-text h2 {
+      font-size: var(--fs-2);
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+      margin-bottom: 25px;
+      color: var(--bright-navy-blue);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .about-text p {
+      font-size: var(--fs-4);
+      line-height: 1.7;
+      color: var(--black-coral);
+    }
+
+    .about-images {
+      flex: 1;
+      min-width: 300px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .about-images img {
+      width: 100%;
+      max-width: 450px;
+      height: 250px;
+      border-radius: var(--radius-15);
+      object-fit: cover;
+      box-shadow: 0 4px 15px hsla(0, 0%, 0%, 0.12);
+    }
+
+    /* Core Values Section */
+    .values-section {
+      padding: var(--section-padding) 15px;
+      text-align: center;
+      margin-bottom: 40px; /* Space before footer */
+    }
+
+    .values-section h2 {
+      font-size: var(--fs-2);
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+      margin-bottom: 40px;
+      color: var(--gunmetal);
+      text-transform: uppercase;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .value-card {
+      background-color: var(--white);
+      border-radius: var(--radius-15);
+      box-shadow: 0 5px 20px hsla(0, 0%, 0%, 0.08);
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .value-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px hsla(0, 0%, 0%, 0.15);
+    }
+
+    .value-card ion-icon {
+      font-size: 55px; /* Larger icons */
+      color: var(--bright-navy-blue);
+      margin-bottom: 20px;
+      --ionicon-stroke-width: 30px; /* Make icons bolder */
+    }
+
+    .value-card h3 {
+      font-family: var(--ff-montserrat);
+      font-size: var(--fs-3);
+      font-weight: var(--fw-700);
+      color: var(--oxford-blue);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .value-card p {
+      font-size: var(--fs-5);
+      color: var(--black-coral);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--gunmetal);
+      color: var(--white);
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: auto;
+    }
+
+    footer p {
+        font-size: var(--fs-5);
+        color: var(--spanish-gray);
+    }
+
+    /* Media Queries for responsiveness */
+    @media (max-width: 992px) {
+        .about-section, .values-section {
+            padding: 30px 20px;
+        }
+        .hero-banner {
+            min-height: 280px;
+            padding: 40px 15px;
+        }
+        .hero-banner h1 {
+            font-size: var(--fs-2);
+        }
+        .about-text h2, .values-section h2 {
+            font-size: var(--fs-3);
+            margin-bottom: 30px;
+        }
+        .about-text p {
+            font-size: var(--fs-5);
+        }
+        .about-images img {
+            height: 200px;
+        }
+        /* Navbar specific media queries for mobile */
+        .header-bottom .container {
+            justify-content: center; /* Ensures center on small screens if no logo */
+        }
+        .navbar-list {
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+          gap: 0;
+          margin-top: 0;
+        }
+        .navbar-list li {
+          width: 100%;
+        }
+        .navbar-link {
+          width: 100%;
+          padding: 12px 15px;
+          border-bottom: 1px solid hsla(0, 0%, 100%, 0.08);
+        }
+        .navbar-list li:last-child .navbar-link {
+          border-bottom: none;
+        }
+        .navbar-list .has-dropdown .navbar-link {
+            justify-content: space-between;
+        }
+        .dropdown-menu {
+            position: static;
+            width: 100%;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+            background: hsla(206, 34%, 20%, 0.8) !important;
+        }
+        .dropdown-link {
+            padding-left: 30px;
+            border-bottom: 1px solid hsla(0, 0%, 100%, 0.05);
+        }
+        .dropdown-menu li:last-child .dropdown-link {
+            border-bottom: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+      .about-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-text {
+        padding: 15px;
+      }
+      .about-images {
+        padding: 15px;
+      }
+      .value-card {
+        padding: 25px;
+      }
+      .value-card ion-icon {
+        font-size: 45px;
+      }
+      .value-card h3 {
+        font-size: var(--fs-4);
+      }
+    }
+
+    @media (max-width: 480px) {
+        .hero-banner {
+            min-height: 200px;
+            padding: 30px 10px;
+        }
+        .hero-banner h1 {
+            font-size: var(--fs-3);
+        }
+        .values-grid {
+            grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+        }
+        .value-card {
+            padding: 20px;
+        }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header-bottom">
+    <div class="container">
+      <ul class="navbar-list">
+        <li><a href="index.html" class="navbar-link">HOME</a></li>
+        <li><a href="./Aboutus.html" class="navbar-link">ABOUT US</a></li>
+        <li class="has-dropdown">
+          <a href="#" class="navbar-link">SERVICES<ion-icon name="chevron-down-outline"></ion-icon></a>
+          <ul class="dropdown-menu">
+            <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+            <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+            <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+          </ul>
+        </li>
+        <li><a href="./touristindex.html" class="navbar-link">PACKAGES</a></li>
+        <li><a href="./index.html#gallery" class="navbar-link">GALLERY</a></li>
+        <li><a href="./ContactUs.html" class="navbar-link">CONTACT US</a></li>
+        <li><a href="./User.html" class="navbar-link">MY PROFILE</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="hero-banner">
+    <h1>About Tourly</h1>
+  </section>
+
+  <section class="about-section">
+    <div class="about-text">
+      <h2>Our Story & Mission</h2>
+      <p>
+        Welcome to **Tourly**, where every journey is a story waiting to unfold. We are more than just a travel agency;
+        we are **dream weavers**, dedicated to transforming your wanderlust into breathtaking realities. Our passion lies
+        in crafting journeys that resonate deep within your soul, creating **unforgettable memories** that last a lifetime.
+        <br><br>
+        At Tourly, we believe that travel is an art – a vibrant tapestry woven with discovery, adventure, and joy.
+        Whether you yearn for the tranquil serenity of a secluded beach, the thrilling pulse of a bustling city,
+        or the awe-inspiring grandeur of ancient landscapes, we meticulously curate experiences tailored just for you.
+        We stand by our commitment to **seamless service**, **unwavering reliability**, and **genuine care**, ensuring
+        every step of your adventure is as smooth as it is spectacular. Join us, and let Tourly paint your next masterpiece of exploration.
+      </p>
+    </div>
+
+    <div class="about-images">
+      <img src="./assets/images/AboutUs1.jpg" alt="Our team on an adventure">
+      <img src="./assets/images/AboutUs2.jpg" alt="Happy travelers with Tourly">
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="container">
+      <h2>Our Core Values</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <ion-icon name="happy-outline"></ion-icon>
+          <h3>Customer First</h3>
+          <p>Your satisfaction is our top priority. We go above and beyond to ensure a joyful and hassle-free travel experience.</p>
+        </div>
+        <div class="value-card">
+          <ion-icon name="leaf-outline"></ion-icon>
+          <h3>Sustainable Travel</h3>
+          <p>We are committed to promoting responsible tourism that respects local cultures and preserves natural beauty.</p>
+        </div>
+        <div class="value-card">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <h3>Reliability & Trust</h3>
+          <p>We provide transparent services and honest advice, building lasting relationships based on trust and dependability.</p>
+        </div>
+        <div class="value-card">
+          <ion-icon name="sparkles-outline"></ion-icon>
+          <h3>Innovation</h3>
+          <p>Constantly seeking new ways to enhance your journey, from seamless booking to unique destination experiences.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Tourly. All rights reserved.</p>
+  </footer>
+
+</body>
+
+</html>

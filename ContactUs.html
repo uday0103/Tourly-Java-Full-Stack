@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Tourly</title>
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksKfSjQ/l77wz19D9c7Fj+Y6f0hPzR7fX4a6z5c0zP8+1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom Properties (Colors and Typography) - Copied from your Hotels file */
+        :root {
+            --primary-dark: #2A3B4C; /* Dark blue from your image header */
+            --secondary-light: #F8F8F8; /* White/off-white for content backgrounds */
+            --accent-blue: #007bff; /* A standard blue for buttons/accents */
+            --text-dark: #333;
+            --text-medium: #555;
+            --text-light: #888;
+            --border-light: #ddd;
+
+            --ff-poppins: "Poppins", sans-serif;
+            --ff-montserrat: "Montserrat", sans-serif;
+
+            --fs-h1: 3em;
+            --fs-h2: 2.2em;
+            --fs-h3: 1.6em;
+            --fs-body: 1em;
+            --fs-small: 0.9em;
+
+            --fw-normal: 400;
+            --fw-medium: 500;
+            --fw-semibold: 600;
+            --fw-bold: 700;
+            --fw-extrabold: 800;
+
+            --spacing-medium: 20px;
+            --spacing-large: 40px;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s ease;
+
+            /* Specific colors for this theme from previous responses / Tourly theme adjustments */
+            --united-nations-blue: hsl(214, 56%, 58%);
+            --bright-navy-blue: hsl(214, 57%, 51%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --black-coral: hsl(225, 8%, 42%);
+            --oxford-blue: hsl(208, 97%, 12%);
+            --yale-blue: hsl(214, 72%, 33%);
+            --blue-ncs: hsl(197, 100%, 36%);
+            --gunmetal: hsl(206, 34%, 20%);
+            --gainsboro: hsl(0, 0%, 88%);
+            --cultured: hsl(0, 0%, 98%);
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --onyx: hsl(0, 0%, 25%);
+            --jet: hsl(0, 0%, 20%);
+
+            --fs-1: calc(20px + 3.5vw);
+            --fs-2: calc(18px + 1.6vw);
+            --fs-3: calc(16px + 0.45vw);
+            --fs-4: 15px;
+            --fs-5: 14px;
+            --fs-6: 13px;
+            --fs-7: 12px;
+            --fs-8: 11px;
+
+            --fw-500: 500;
+            --fw-600: 600;
+            --fw-700: 700;
+            --fw-800: 800;
+
+            --transition: 0.25s ease-in-out;
+            --section-padding: 60px;
+            --radius-15: 15px;
+            --radius-25: 25px; /* Added for the rounded navbar */
+        }
+
+        /* Base Styles - Copied from your Hotels file */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--ff-poppins);
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font: inherit;
+        }
+
+        /* Header Styles (Matching the new simplified navbar from Hotels file) */
+        .header {
+            background-color: var(--primary-dark);
+            padding: 20px 0;
+            padding-top: 60px;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .header > .container { /* Targeting direct child container of header */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            background-color: var(--secondary-light);
+            border-radius: var(--radius-25);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar-list {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .navbar-list li {
+            position: relative;
+        }
+
+        .navbar-link {
+            color: var(--text-dark);
+            font-weight: var(--fw-medium);
+            padding: 8px 12px;
+            transition: color var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase; /* Ensure text is uppercase */
+        }
+
+        .navbar-link:hover, .navbar-link.active {
+            color: var(--accent-blue);
+        }
+        
+        /* Dropdown Menu */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--secondary-light);
+            min-width: 160px;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            z-index: 1;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .navbar-list li.has-dropdown:hover .dropdown-menu,
+        .navbar-list li.has-dropdown:focus-within .dropdown-menu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            color: var(--text-dark);
+            padding: 10px 20px;
+            display: block;
+            white-space: nowrap;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .dropdown-link:hover {
+            background-color: var(--border-light);
+            color: var(--accent-blue);
+        }
+        
+        .navbar-link ion-icon {
+            font-size: 0.9em;
+            pointer-events: none;
+        }
+
+        /* Mobile Navigation (Hidden by default in this simpler design, but kept for consistency if needed later) */
+        .nav-open-btn, .nav-close-btn {
+            display: none;
+        }
+        .overlay {
+            display: none;
+        }
+
+        /* --- Page Specific Styles for Contact Us --- */
+        .hero-banner {
+            background-color: var(--primary-dark); 
+            color: var(--white);
+            text-align: center;
+            padding: var(--section-padding) 15px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px; /* Reduced height slightly for contact page */
+        }
+
+        .hero-banner h1 {
+            font-family: var(--ff-montserrat);
+            font-size: 50px;
+            font-weight: var(--fw-extrabold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        .contact-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: flex; /* Flexbox for two columns */
+            gap: 40px; /* Spacing between columns */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .contact-info-column,
+        .contact-form-column {
+            flex: 1; /* Each column takes equal space */
+            min-width: 300px; /* Minimum width before wrapping */
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--radius-15);
+            box-shadow: var(--box-shadow);
+        }
+
+        .contact-content h2 {
+            font-family: var(--ff-montserrat);
+            font-size: var(--fs-h2);
+            font-weight: var(--fw-bold);
+            color: var(--bright-navy-blue);
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        
+        .contact-info-column h3,
+        .contact-form-column h3 {
+            font-family: var(--ff-montserrat);
+            font-size: var(--fs-h3);
+            font-weight: var(--fw-bold);
+            color: var(--oxford-blue);
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--black-coral);
+            font-size: var(--fs-body);
+        }
+
+        .info-item i {
+            font-size: 24px; /* Larger icons for contact info */
+            color: var(--bright-navy-blue);
+            margin-right: 20px;
+            width: 30px; /* Fixed width for consistent alignment */
+            text-align: center;
+        }
+
+        .info-item p, .info-item a {
+            margin: 0;
+            font-size: var(--fs-body);
+            color: var(--black-coral);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .info-item a:hover {
+            color: var(--bright-navy-blue);
+        }
+
+        /* Contact Form Styles */
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: var(--fw-medium);
+            color: var(--text-dark);
+            font-size: var(--fs-small);
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-25); /* Rounded inputs */
+            font-family: var(--ff-poppins);
+            font-size: var(--fs-body);
+            color: var(--jet);
+            background-color: var(--cultured);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .contact-form input[type="text"]:focus,
+        .contact-form input[type="email"]:focus,
+        .contact-form textarea:focus {
+            border-color: var(--bright-navy-blue);
+            box-shadow: 0 0 0 3px hsla(214, 57%, 51%, 0.2);
+            outline: none;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+            border-radius: var(--radius-15); /* Slightly less rounded for textarea */
+        }
+
+        .contact-form button {
+            width: 100%;
+            padding: 15px 25px;
+            background-color: var(--bright-navy-blue);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-25);
+            font-size: var(--fs-body);
+            font-weight: var(--fw-semibold);
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-form button:hover {
+            background-color: var(--yale-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Footer - Copied from your Hotels file */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+        }
+
+        footer p {
+            font-size: var(--fs-small);
+            color: var(--spanish-gray);
+        }
+
+        /* Pop-up Message Styles */
+        .popup-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--bright-navy-blue);
+            color: var(--white);
+            padding: 20px 30px;
+            border-radius: var(--radius-15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, visibility 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: var(--fs-h3);
+            font-weight: var(--fw-semibold);
+            text-align: center;
+        }
+
+        .popup-message.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup-message i {
+            font-size: 1.5em; /* Larger icon in pop-up */
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+            .navbar-list {
+                gap: 15px;
+            }
+            .navbar-link {
+                padding: 6px 10px;
+                font-size: 0.9em;
+            }
+            .dropdown-menu {
+                min-width: 140px;
+            }
+            .dropdown-link {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            .hero-banner {
+                min-height: 200px;
+                padding: 40px 15px;
+            }
+            .hero-banner h1 {
+                font-size: var(--fs-2);
+            }
+            .contact-content {
+                flex-direction: column; /* Stack columns on smaller screens */
+                gap: 30px; /* Adjust gap for stacking */
+                margin: 30px auto;
+                padding: 15px;
+            }
+            .contact-info-column,
+            .contact-form-column {
+                min-width: unset; /* Remove min-width when stacking */
+                width: 100%;
+                padding: 25px;
+            }
+            .contact-content h2 {
+                font-size: var(--fs-3);
+                margin-bottom: 25px;
+            }
+            .contact-info-column h3,
+            .contact-form-column h3 {
+                font-size: var(--fs-4);
+                margin-bottom: 20px;
+            }
+            .info-item {
+                margin-bottom: 15px;
+            }
+            .info-item i {
+                font-size: 20px;
+                margin-right: 15px;
+            }
+            .info-item p, .info-item a {
+                font-size: var(--fs-small);
+            }
+            .contact-form input,
+            .contact-form textarea,
+            .contact-form button {
+                padding: 10px 15px;
+                font-size: var(--fs-small);
+            }
+            .contact-form textarea {
+                min-height: 100px;
+            }
+
+            .popup-message {
+                padding: 15px 25px;
+                font-size: var(--fs-body);
+                gap: 10px;
+            }
+            .popup-message i {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                width: auto;
+                padding: 15px;
+            }
+            .navbar-list {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            .navbar-list li {
+                width: 100%;
+                text-align: center;
+            }
+            .navbar-link {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 0;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+                background-color: rgba(255, 255, 255, 0.9);
+                width: 100%;
+                padding: 0;
+                margin-top: 5px;
+            }
+            .dropdown-link {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .hero-banner h1 {
+                font-size: var(--fs-3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <ul class="navbar-list">
+                    <li><a href="./index.html" class="navbar-link">HOME</a></li>
+                    <li><a href="./Aboutus.html" class="navbar-link">ABOUT US</a></li>
+                    <li class="has-dropdown">
+                        <a href="#" class="navbar-link">SERVICES <ion-icon name="chevron-down-outline"></ion-icon></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+                            <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+                            <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./touristindex.html" class="navbar-link">PACKAGES</a></li>
+                    <li><a href="./index.html#gallery" class="navbar-link">GALLERY</a></li>
+                    <li><a href="#" class="navbar-link active">CONTACT US</a></li> <li><a href="./User.html" class="navbar-link">MY PROFILE</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-banner">
+        <h1>Get In Touch With Us</h1>
+    </section>
+
+    <div class="contact-content">
+        <div class="contact-info-column">
+            <h2>Our Contact Information</h2>
+            <h3>Reach Out to Tourly</h3>
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>2308 Travel Lane, Ongole, Andhra Pradesh, India - 523001</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <p><a href="tel:+911234567890">+91 70752 94344</a></p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <p><a href="mailto:info@tourly.com">info@tourly.com</a></p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <p>Mon - Fri: 9:00 AM - 6:00 PM IST</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-globe"></i>
+                <p><a href="https://www.tourly.com" target="_blank">www.tourly.com</a></p>
+            </div>
+        </div>
+
+        <div class="contact-form-column">
+            <h2>Send Us a Message</h2>
+            <h3>We're Here to Help</h3>
+            <form action="#" method="POST" class="contact-form">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" placeholder="e.g., your.email@example.com" required>
+
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="What's your query about?" required>
+
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Tourly. All rights reserved.</p>
+    </footer>
+
+    <div id="popupMessage" class="popup-message">
+        <i class="fas fa-check-circle"></i>
+        <span>Message sent successfully!</span>
+    </div>
+
+    <script src="./assets/js/ContactUs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Account</title>
+    <link rel="stylesheet" href="./assets/css/Login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="company-name">Tourly</div>
+            <div class="welcome-text">
+                Nice to see you again
+                <h1>WELCOME BACK</h1>
+                <p>The adventure took a break — now it's back.
+New places, new faces, new stories await.
+Ready to write your next chapter?</p>
+            </div>
+            <div class="waves"></div>
+        </div>
+        <div class="right-panel">
+            <h2>Login Account</h2>
+            <form id="loginForm" >
+                <div class="input-group">
+                    <input type="text" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <div class="options">
+                    <label>
+                        <input type="checkbox"> Keep me signed in
+                    </label>
+                    <p>Don't have account ?<br><a href="SignUp.html">Create One</a></p>
+                </div>
+                <button type="submit" class="subscribe-btn">LOGIN</button>
+            </form>
+            
+        </div>
+    <p id="responseMsg" class="response-message"></p> 
+    </div>
+    <script src="./assets/js/Login.js"></script>
+    
+    
+
+</body>
+</html>

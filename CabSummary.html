@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cab Booking Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; } /* Ion-icon display block for consistent sizing */
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    /* ion-icon { pointer-events: none; } - Removed as it's not needed for the popup icon */
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    /* Body Styling */
+    body {
+      background: var(--cultured); /* Light background from Tourly */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      animation: fadeIn 0.8s ease-out; /* Add animation to body */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Styling (Equivalent to booking-box) */
+    .card {
+      background-color: var(--white); /* White background */
+      padding: 40px;
+      border-radius: var(--radius-15); /* Rounded corners */
+      box-shadow: 0 10px 30px hsla(0, 0%, 0%, 0.1); /* Soft shadow */
+      text-align: center;
+      max-width: 500px;
+      width: 90%; /* Responsive width */
+    }
+
+    h2 {
+      color: var(--oxford-blue); /* Dark blue heading from Tourly */
+      margin-bottom: 25px;
+      font-size: var(--fs-2); /* Larger, consistent heading size */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: var(--fs-4); /* Consistent font size for paragraphs */
+      margin: 12px 0; /* Adjusted margin */
+      color: var(--jet); /* Darker text for information */
+      text-align: left; /* Align text to left within the card */
+    }
+
+    span.label {
+      font-weight: var(--fw-600); /* Semi-bold for labels */
+      color: var(--bright-navy-blue); /* Primary blue color for labels */
+      margin-right: 5px; /* Small space after label */
+      display: inline-block; /* Ensure label and value stay inline together */
+      min-width: 120px; /* Give labels a consistent width to align values */
+    }
+
+    /* Button Group */
+    .btn-group {
+      display: flex;
+      justify-content: center; /* Center buttons */
+      gap: 15px; /* Space between buttons */
+      margin-top: 30px; /* Space above buttons */
+    }
+
+    /* Common Button Styles */
+    .btn {
+      padding: 14px 28px; /* Consistent padding for buttons */
+      border: 2px solid transparent; /* Border for hover effect */
+      border-radius: 100px; /* Fully rounded buttons */
+      font-size: var(--fs-5);
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: background-color var(--transition), transform 0.2s ease, border-color var(--transition), box-shadow var(--transition);
+      text-transform: uppercase; /* Uppercase text */
+      color: var(--white); /* White text for all buttons */
+      min-width: 150px; /* Ensure buttons have a minimum width */
+    }
+
+    /* "Back to Cabs" Button */
+    .pay-button1 {
+      background-color: var(--united-nations-blue); /* Blue from Tourly theme */
+      border-color: var(--united-nations-blue);
+    }
+
+    .pay-button1:hover {
+      background-color: var(--yale-blue); /* Darker blue on hover */
+      border-color: var(--yale-blue);
+      transform: translateY(-2px); /* Slight lift */
+      box-shadow: 0 5px 10px hsla(0, 0%, 0%, 0.1);
+    }
+
+    /* "Pay Now" Button */
+    .pay-button {
+      background-color: var(--bright-navy-blue); /* Brighter blue from Tourly theme */
+      border-color: var(--bright-navy-blue);
+    }
+
+    .pay-button:hover {
+      background-color: var(--oxford-blue); /* Even darker blue on hover */
+      border-color: var(--oxford-blue);
+      transform: translateY(-2px); /* Slight lift */
+      box-shadow: 0 5px 10px hsla(0, 0%, 0%, 0.1);
+    }
+
+    /* Hide the original success message, as it's replaced by the popup */
+    #success {
+      display: none !important;
+    }
+
+    /* Payment Popup Styles (copied from provided Hotels code) */
+    .payment-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* High z-index to appear on top of everything */
+      opacity: 0; /* Start hidden */
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .payment-popup.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .payment-popup-content {
+      background-color: var(--white);
+      padding: 40px;
+      border-radius: var(--radius-15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      transform: translateY(-20px); /* Initial position for animation */
+      transition: transform 0.3s ease;
+    }
+
+    .payment-popup.show .payment-popup-content {
+      transform: translateY(0); /* Animate to final position */
+    }
+
+    .payment-popup-content ion-icon {
+      font-size: 80px;
+      color: #28a745; /* Green for success */
+      margin-bottom: 20px;
+      --ionicon-stroke-width: 25px; /* Adjust stroke thickness for the icon */
+    }
+
+    .payment-popup-content h3 {
+      font-family: var(--ff-montserrat);
+      font-size: var(--fs-2); /* Using Tourly fs-2 for headings */
+      font-weight: var(--fw-bold);
+      color: var(--oxford-blue);
+      margin-bottom: 10px;
+    }
+
+    .payment-popup-content p {
+      font-size: var(--fs-4); /* Using Tourly fs-4 for body text */
+      color: var(--black-coral);
+      margin-bottom: 25px;
+      text-align: center; /* Center align text in popup */
+    }
+
+    .payment-popup-content button {
+      padding: 12px 30px;
+      background-color: var(--bright-navy-blue);
+      color: var(--white);
+      border-radius: 50px;
+      font-weight: var(--fw-semibold);
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-popup-content button:hover {
+      background-color: var(--yale-blue);
+    }
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .card {
+        padding: 30px;
+        border-radius: var(--radius-15);
+      }
+      h2 {
+        font-size: var(--fs-3);
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: var(--fs-5);
+        margin: 8px 0;
+      }
+      span.label {
+        min-width: 90px; /* Adjust for smaller screens */
+      }
+      .btn-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: var(--fs-6);
+      }
+      .payment-popup-content {
+        padding: 30px;
+      }
+      .payment-popup-content ion-icon {
+        font-size: 60px;
+      }
+      .payment-popup-content h3 {
+        font-size: var(--fs-3);
+      }
+      .payment-popup-content p {
+        font-size: var(--fs-5);
+      }
+      .payment-popup-content button {
+        padding: 10px 25px;
+        font-size: var(--fs-5);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Cab Booking Summary</h2>
+  <p><span class="label">Name:</span> <span id="name"></span></p>
+  <p><span class="label">Travellers:</span> <span id="travellers"></span></p>
+  <p><span class="label">Cab Type:</span> <span id="cabType"></span></p>
+  <p><span class="label">Pickup:</span> <span id="pickup"></span></p>
+  <p><span class="label">Drop:</span> <span id="drop"></span></p>
+  <p><span class="label">Date:</span> <span id="cabDate"></span></p>
+  <p><span class="label">Price per Person:</span> ₹300</p>
+  <p><span class="label">Total Price:</span> ₹<span id="total"></span></p>
+
+  <div class="btn-group">
+    <button class="btn pay-button1" onclick="goBackToCabs()">Back to Cabs</button>
+    <button class="btn pay-button" onclick="payNow()">Pay Now</button>
+  </div>
+  <p id="success" class="success-msg">✅ Payment Successful! Thank you 😊</p>
+</div>
+
+<div id="paymentPopup" class="payment-popup">
+  <div class="payment-popup-content">
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+    <h3>Payment Successful!</h3>
+    <p>Your cab booking has been confirmed.</p>
+    <button id="closePopupBtn">OK</button>
+  </div>
+</div>
+
+<script>
+  // Get logged in user
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("User not logged in. Please login first.");
+    window.location.href = "Login.html";
+  }
+
+  // Load booking data from sessionStorage
+  const name = sessionStorage.getItem("cabName") || user.fullName;
+  const travellers = parseInt(sessionStorage.getItem("cabTravellers")) || 1;
+  const pickup = sessionStorage.getItem("cabPickup") || "N/A";
+  const drop = sessionStorage.getItem("cabDrop") || "N/A";
+  const cabType = sessionStorage.getItem("cabType") || "Sedan";
+  const cabDate = sessionStorage.getItem("cabDate") || "01-01-25";
+  const price = 300;
+  const total = price * travellers;
+
+  // Set values to HTML
+  document.getElementById("name").textContent = name;
+  document.getElementById("travellers").textContent = travellers;
+  document.getElementById("pickup").textContent = pickup;
+  document.getElementById("drop").textContent = drop;
+  document.getElementById("cabType").textContent = cabType;
+  document.getElementById("cabDate").textContent = cabDate;
+  document.getElementById("total").textContent = total;
+
+  function goBackToCabs() {
+    window.location.href = 'CabsIndex.html';
+  }
+
+  // Get popup elements
+  const paymentPopup = document.getElementById("paymentPopup");
+  const closePopupBtn = document.getElementById("closePopupBtn");
+
+  function showPaymentPopup() {
+    paymentPopup.classList.add("show");
+  }
+
+  function hidePaymentPopup() {
+    paymentPopup.classList.remove("show");
+    // Optionally, clear sessionStorage or redirect after successful booking
+    // sessionStorage.removeItem("cabName");
+    // sessionStorage.removeItem("cabTravellers");
+    // etc.
+    // window.location.href = "some_confirmation_page.html";
+  }
+
+  // Add event listener to close button
+  closePopupBtn.addEventListener("click", hidePaymentPopup);
+
+  function payNow() {
+    const booking = {
+      userId: user.id,
+      name: name,
+      cabType: cabType,
+      pickup: pickup,
+      dropLocation: drop,
+      travellers : travellers,
+      travelDate: cabDate,
+      totalPrice: total
+
+      
+    };
+
+    fetch("http://localhost:8080/api/cabs/book", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(booking)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to store booking");
+      return res.json();
+    })
+    .then(data => {
+      showPaymentPopup(); // Show the pop-up on successful payment
+      
+      setTimeout(() => {
+        paymentPopup.classList.remove("show");
+        window.location.href = "index.html";
+      }, 3000); // 3000ms = 3 seconds
+    })
+    .catch(err => {
+      alert("Error: " + err.message);
+    });
+  }
+</script>
+
+</body>
+</html>

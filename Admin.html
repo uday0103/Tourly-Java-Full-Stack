@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tourly Admin Panel</title> <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+        /* Custom Properties for a consistent theme */
+        :root {
+            --sidebar-bg: #2C3E50; /* Dark blue/grey */
+            --sidebar-hover: #34495E; /* Slightly lighter dark blue/grey */
+            --sidebar-active: #1ABC9C; /* Teal/Turquoise accent for active state */
+            --text-light: #ECF0F1; /* Off-white for sidebar text */
+            --main-bg: #F8F9FA; /* Light grey for main content background */
+            --card-bg: #FFFFFF; /* White for content cards */
+            --header-text: #34495E; /* Dark text for headings */
+            --body-text: #555; /* Medium grey for body text */
+            --border-color: #E0E0E0; /* Light grey for borders */
+            --table-header-bg: #F2F2F2; /* Light grey for table headers */
+            --table-stripe-bg: #FAFAFA; /* Even lighter grey for striped rows */
+            --logout-btn-bg: #E74C3C; /* Red for logout button */
+            --logout-btn-hover: #C0392B; /* Darker red on hover */
+
+            --font-poppins: 'Poppins', sans-serif;
+            --font-montserrat: 'Montserrat', sans-serif;
+
+            --border-radius-sm: 5px;
+            --border-radius-md: 10px;
+            --box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --box-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.2s ease-in-out;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            min-height: 100vh; /* Full viewport height */
+            font-family: var(--font-poppins);
+            background-color: var(--main-bg);
+            color: var(--body-text);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px; /* Slightly wider sidebar */
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            padding: 20px 0; /* Vertical padding only */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--box-shadow-md); /* Subtle shadow for depth */
+            position: sticky; /* Keep sidebar in place on scroll */
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px 20px; /* Padding for header */
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-family: var(--font-montserrat);
+            font-size: 24px;
+            font-weight: 700; /* Using 700 for bold as per typical font weights */
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .sidebar-nav button {
+            width: 100%;
+            padding: 15px 25px; /* More horizontal padding */
+            background: none;
+            color: var(--text-light);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 17px; /* Slightly larger font */
+            display: flex; /* For icon and text alignment */
+            align-items: center;
+            gap: 15px; /* Space between icon and text */
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .sidebar-nav button ion-icon {
+            font-size: 22px; /* Icon size */
+            opacity: 0.8;
+            transition: opacity var(--transition-speed);
+        }
+
+        .sidebar-nav button:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--text-light);
+        }
+
+        .sidebar-nav button.active {
+            background-color: var(--sidebar-active);
+            color: var(--sidebar-bg); /* Dark text on active background */
+            font-weight: 600;
+        }
+
+        .sidebar-nav button.active ion-icon {
+            opacity: 1;
+            color: var(--sidebar-bg);
+        }
+
+        /* Main Content Styling */
+        .main {
+            flex: 1;
+            padding: 40px; /* More padding around content */
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Space between title and table container */
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between; /* Distribute space between title and logout button */
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #sectionTitle {
+            font-family: var(--font-montserrat);
+            font-size: 32px; /* Larger, more prominent title */
+            font-weight: 700;
+            color: var(--header-text);
+            margin: 0;
+            flex-grow: 1; /* Allow title to take available space */
+        }
+
+        /* Logout Button Styling */
+        .logout-btn {
+            background-color: var(--logout-btn-bg);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex; /* For icon and text */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .logout-btn ion-icon {
+            font-size: 20px;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--logout-btn-hover);
+            transform: translateY(-2px); /* Subtle lift on hover */
+        }
+
+
+        #tableContainer {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--box-shadow-sm); /* Subtle shadow for the data card */
+            min-height: 200px; /* Ensure some height even if no data */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #tableContainer p {
+            font-size: 18px;
+            color: var(--body-text);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: separate; /* Use separate to allow border-radius on cells */
+            border-spacing: 0; /* Remove default spacing */
+            border-radius: var(--border-radius-sm); /* Slight border-radius for table */
+            overflow: hidden; /* Ensures rounded corners are visible */
+        }
+
+        th, td {
+            border: none; /* Remove individual cell borders */
+            padding: 12px 15px; /* More padding inside cells */
+            text-align: left;
+            font-size: 15px;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--header-text);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky; /* Keep header visible on scroll */
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--table-stripe-bg); /* Zebra striping */
+        }
+
+        tr:hover {
+            background-color: #E6F7FF; /* Light blue hover effect for rows */
+            cursor: pointer;
+        }
+
+        /* First and Last child styling for rounded corners */
+        table thead tr th:first-child { border-top-left-radius: var(--border-radius-sm); }
+        table thead tr th:last-child { border-top-right-radius: var(--border-radius-sm); }
+        table tbody tr:last-child td:first-child { border-bottom-left-radius: var(--border-radius-sm); }
+        table tbody tr:last-child td:last-child { border-bottom-right-radius: var(--border-radius-sm); }
+
+        /* Error message styling */
+        #tableContainer p[style*="color:red"] {
+            color: #E74C3C !important; /* Stronger red for errors */
+            font-weight: 600;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* Stack sidebar and main content */
+            }
+            .sidebar {
+                width: 100%;
+                height: auto; /* Auto height for mobile */
+                padding: 10px 0;
+                box-shadow: var(--box-shadow-sm);
+                position: relative; /* No sticky on mobile */
+            }
+            .sidebar-header {
+                padding: 10px 20px;
+                margin-bottom: 10px;
+                border-bottom: none; /* Remove border for cleaner mobile look */
+            }
+            .sidebar-header h1 {
+                font-size: 20px;
+            }
+            .sidebar-nav {
+                display: flex; /* Arrange buttons in a row for mobile */
+                flex-wrap: wrap; /* Allow buttons to wrap */
+                justify-content: center;
+                gap: 5px; /* Small gap between buttons */
+            }
+            .sidebar-nav button {
+                width: auto; /* Auto width for buttons */
+                flex: 1 1 auto; /* Distribute space evenly */
+                max-width: 150px; /* Limit button width */
+                padding: 10px 15px;
+                font-size: 14px;
+                border-radius: var(--border-radius-sm);
+                text-align: center;
+                justify-content: center; /* Center icon and text */
+            }
+            .sidebar-nav button ion-icon {
+                font-size: 18px;
+            }
+            .main {
+                padding: 20px;
+                gap: 20px;
+            }
+            .main-header {
+                flex-direction: column; /* Stack title and logout button */
+                align-items: flex-start; /* Align stacked items to left */
+                gap: 15px; /* Space between stacked items */
+            }
+            #sectionTitle {
+                font-size: 24px;
+                width: 100%; /* Take full width when stacked */
+                text-align: center; /* Center title on mobile */
+            }
+            .logout-btn {
+                width: 100%; /* Full width for logout button on mobile */
+                justify-content: center; /* Center content within logout button */
+            }
+            #tableContainer {
+                padding: 15px;
+            }
+            table, thead, tbody, th, td, tr {
+                display: block; /* Make table elements behave like block elements for stacking */
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px; /* Hide table header on small screens */
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid var(--border-color);
+                margin-bottom: 15px;
+                border-radius: var(--border-radius-sm);
+                overflow: hidden;
+                box-shadow: var(--box-shadow-sm);
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%; /* Make space for pseudo-element labels */
+                text-align: right;
+                word-wrap: break-word; /* Prevent long words from breaking layout */
+            }
+            td:before { /* Create labels for data cells on mobile */
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: var(--header-text);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Tourly Admin Panel</h1> </div>
+        <div class="sidebar-nav">
+            <button onclick="loadData('users', this)">
+                <ion-icon name="people-outline"></ion-icon> Users
+            </button>
+            <button onclick="loadData('cabs', this)">
+                <ion-icon name="car-outline"></ion-icon> Cabs
+            </button>
+            <button onclick="loadData('hotels', this)">
+                <ion-icon name="bed-outline"></ion-icon> Hotels
+            </button>
+            <button onclick="loadData('flights', this)">
+                <ion-icon name="airplane-outline"></ion-icon> Flights
+            </button>
+            <button onclick="loadData('tourist', this)">
+                <ion-icon name="map-outline"></ion-icon> Tourist
+            </button>
+            <button onclick="loadData('contact', this)">
+                <ion-icon name="chatbubble-ellipses-outline"></ion-icon> Feedback
+            </button>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-header">
+            <h2 id="sectionTitle">Welcome, Admin!</h2>
+            <button class="logout-btn" onclick="adminLogout()">
+                <ion-icon name="log-out-outline"></ion-icon> Logout
+            </button>
+        </div>
+        <div id="tableContainer">
+            <p>Select a category from the sidebar to view data.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentActiveButton = null; // To keep track of the currently active button
+
+        function loadData(type, buttonElement) {
+            // Remove 'active' class from previously active button
+            if (currentActiveButton) {
+                currentActiveButton.classList.remove('active');
+            }
+            // Add 'active' class to the clicked button
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+                currentActiveButton = buttonElement; // Set current active button
+            }
+
+            document.getElementById("sectionTitle").innerText = type.charAt(0).toUpperCase() + type.slice(1) + " Data";
+            document.getElementById("tableContainer").innerHTML = "<p>Loading data...</p>"; // Loading state
+
+            fetch(`http://localhost:8080/api/admin/${type}`)
+                .then(response => {
+                    if (!response.ok) {
+                        // Check for specific error messages from backend if available
+                        return response.text().then(text => { throw new Error(text || `Failed to fetch ${type} data.`); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data) || data.length === 0) {
+                        document.getElementById("tableContainer").innerHTML = `<p>No ${type} data found.</p>`;
+                        return;
+                    }
+
+                    const keys = Object.keys(data[0]);
+                    let html = '<table><thead><tr>';
+                    keys.forEach(k => html += `<th>${k}</th>`); // Table headers
+                    html += '</tr></thead><tbody>';
+
+                    data.forEach(item => {
+                        html += '<tr>';
+                        keys.forEach(k => {
+                            // Add data-label for responsive tables on mobile
+                            html += `<td data-label="${k.charAt(0).toUpperCase() + k.slice(1)}">${item[k]}</td>`;
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table>';
+
+                    document.getElementById("tableContainer").innerHTML = html;
+                })
+                .catch(err => {
+                    document.getElementById("tableContainer").innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
+                    console.error(`Error fetching ${type} data:`, err);
+                });
+        }
+
+        // New function for admin logout
+        function adminLogout() {
+            // Clear any user session data (e.g., from localStorage or sessionStorage)
+            localStorage.removeItem("adminLoggedIn"); // Assuming you set a flag like this on login
+            localStorage.removeItem("user"); // Clear general user data if admin uses the same storage
+
+            // Redirect to the login page
+            window.location.href = "login.html"; // Adjust to your actual login page URL
+        }
+
+        // Optional: Load 'users' data by default on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Find the 'Users' button and click it to load default data
+            const usersButton = document.querySelector('.sidebar-nav button');
+            if (usersButton) {
+                loadData('users', usersButton);
+            }
+        });
+    </script>
+
+</body>
+</html>

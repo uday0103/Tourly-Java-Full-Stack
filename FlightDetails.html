@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tourly - Booking Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    ion-icon { pointer-events: none; }
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cultured); /* Light background from Tourly theme */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column; /* Changed to column to stack navbar and content */
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Reused styles from Tourly for consistency */
+    .container {
+      padding-inline: 15px;
+      max-width: 1180px; /* Wider container for main content area */
+      margin-inline: auto; /* Center the container */
+    }
+
+    /* Navbar styling (mimicking Tourly's header-bottom) */
+    .header-bottom {
+      background: var(--gunmetal) !important; /* Ensure dark background */
+      border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+      padding-block: 15px;
+      position: relative;
+      z-index: 4; /* Higher z-index to appear above header content */
+      width: 100%; /* Ensure navbar spans full width */
+    }
+
+    .header-bottom .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1180px; /* Max width for consistency */
+      margin-inline: auto;
+      padding-block: 0; /* Reset for flex alignment */
+    }
+
+    .navbar-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px; /* Spacing between nav items */
+      width: 100%; /* Ensure list takes full width if needed */
+    }
+
+    .navbar-link {
+      color: var(--white) !important; /* Force white color for visibility */
+      font-size: var(--fs-4);
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+      padding: 20px 15px;
+      transition: var(--transition);
+    }
+
+    .navbar-link:is(:hover, :focus) {
+      color: var(--bright-navy-blue) !important; /* Force bright blue on hover */
+    }
+
+    /* Navbar Dropdown */
+    .navbar-list .has-dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 150px;
+        background: var(--white) !important; /* Ensure white background for dropdown */
+        border-radius: var(--radius-15);
+        box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        z-index: 5;
+        padding: 10px 0;
+    }
+
+    .navbar-list .has-dropdown:hover .dropdown-menu,
+    .navbar-list .has-dropdown:focus-within .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--jet) !important; /* Force dark text for dropdown links */
+        font-size: var(--fs-5);
+        font-weight: var(--fw-500);
+        text-transform: capitalize;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-link:is(:hover, :focus) {
+        background-color: var(--cultured) !important; /* Light background on hover */
+        color: var(--bright-navy-blue) !important; /* Bright blue on hover */
+    }
+    .navbar-list .has-dropdown .navbar-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .navbar-list .has-dropdown .navbar-link ion-icon {
+        font-size: 16px;
+    }
+
+
+    /* Booking Box Specific Styles - Adapted to Tourly Theme */
+    .booking-box {
+      background-color: var(--white);
+      padding: 30px;
+      width: 90%;
+      max-width: 450px; /* Slightly wider */
+      border-radius: var(--radius-15);
+      box-shadow: 0 5px 25px hsla(0, 0%, 0%, 0.1); /* Softer shadow */
+      text-align: center;
+      margin-top: 50px; /* Space from navbar */
+    }
+
+    .booking-box h2 {
+      color: var(--bright-navy-blue); /* Theme blue for heading */
+      margin-bottom: 25px; /* More space */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      font-size: var(--fs-2); /* Larger heading */
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: calc(100% - 20px); /* Account for padding */
+      padding: 12px 18px; /* More padding */
+      margin: 10px 0;
+      border: 1px solid var(--gainsboro); /* Theme border */
+      border-radius: 50px; /* Rounded inputs */
+      font-size: var(--fs-5); /* Theme font size */
+      color: var(--jet); /* Darker text */
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: var(--bright-navy-blue); /* Highlight on focus */
+    }
+
+    .proceed-btn {
+      margin-top: 30px; /* More space */
+      padding: 14px 30px; /* Larger button */
+      font-size: var(--fs-5);
+      font-weight: var(--fw-600);
+      background-color: var(--bright-navy-blue); /* Theme primary button color */
+      color: var(--white);
+      border: 2px solid var(--bright-navy-blue); /* Add border for consistency */
+      border-radius: 100px; /* Fully rounded button */
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+
+    .proceed-btn:hover {
+      background-color: var(--yale-blue); /* Theme hover color */
+      border-color: var(--yale-blue);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .booking-box {
+            padding: 20px;
+        }
+        .booking-box h2 {
+            font-size: var(--fs-3);
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%; /* Full width on smaller screens */
+            padding: 10px 15px;
+        }
+        .proceed-btn {
+            padding: 12px 25px;
+        }
+        .navbar-list {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .navbar-link {
+            padding: 15px 10px;
+            font-size: var(--fs-5);
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bottom">
+    <div class="container">
+      <ul class="navbar-list">
+        <li><a href="./index.html" class="navbar-link">Home</a></li>
+        <li><a href="index.html#popular" class="navbar-link">Popular</a></li>
+        <li class="has-dropdown">
+          <a href="#" class="navbar-link">Services <ion-icon name="chevron-down-outline"></ion-icon></a>
+          <ul class="dropdown-menu">
+            <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+            <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+            <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+          </ul>
+        </li>
+        <li><a href="index.html#gallery" class="navbar-link">Gallery</a></li>
+        <li><a href="./ContactUs.html" class="navbar-link">Contact Us</a></li>
+        <li><a href="./User.html" class="navbar-link">My Profile</a></li> </ul>
+    </div>
+  </div>
+
+  <div class="booking-box">
+    <h2>Booking Details</h2>
+    <form id="bookingForm">
+      <input type="text" id="userName" placeholder="Enter Your Name" required>
+      <input type="number" id="numTravellers" placeholder="Number of Travellers" min="1" required>
+      <input type="hidden" id="depart" value="">
+
+      <button type="submit" class="proceed-btn">Proceed</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const userName = document.getElementById('userName').value;
+  const numTravellers = document.getElementById('numTravellers').value;
+
+  const selectedFlightJSON = sessionStorage.getItem('selectedFlight');
+  let departDate = sessionStorage.getItem('depart');
+  if (!departDate) {
+    departDate = document.getElementById('depart')?.value || "Not Available";
+  }
+
+  if (!selectedFlightJSON) {
+    alert('No flight selected. Please go back to the flights page.');
+    window.location.href = 'FlightIndex.html';
+    return;
+  }
+
+  const selectedFlight = JSON.parse(selectedFlightJSON);
+
+  sessionStorage.setItem('userName', userName);
+  sessionStorage.setItem('numTravellers', numTravellers);
+  
+  sessionStorage.setItem('finalFlightDetails', JSON.stringify({
+    airline: selectedFlight.airline,
+    from: selectedFlight.from,
+    to: selectedFlight.to,
+    date: departDate,
+    price: selectedFlight.price,
+    duration: selectedFlight.duration
+  }));
+
+  window.location.href = 'FlightSummary.html';
+});
+
+
+    // Optional: Pre-fill number of travellers if available from flights.html
+    document.addEventListener('DOMContentLoaded', function () {
+  const storedTravellers = sessionStorage.getItem('passengers');
+  if (storedTravellers) {
+    document.getElementById('numTravellers').value = storedTravellers;
+  }
+
+  const storedDepart = sessionStorage.getItem('depart');
+  if (storedDepart) {
+    document.getElementById('depart').value = storedDepart;
+  }
+});
+
+  </script>
+
+</body>
+</html>

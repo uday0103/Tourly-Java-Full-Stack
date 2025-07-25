@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Booking Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+        /* Custom Properties (Colors and Typography) - adapted from previous versions */
+        :root {
+            --primary-dark: #2A3B4C; /* Dark blue */
+            --secondary-light: #F8F8F8; /* White/off-white for content backgrounds */
+            --accent-blue: #007bff; /* A standard blue for buttons/accents */
+            --text-dark: #333;
+            --text-medium: #555;
+            --text-light: #888;
+            --border-light: #ddd;
+
+            --ff-poppins: "Poppins", sans-serif;
+            --ff-montserrat: "Montserrat", sans-serif;
+
+            --fs-h1: 3em;
+            --fs-h2: 2.2em;
+            --fs-h3: 1.6em;
+            --fs-body: 1em;
+            --fs-small: 0.9em;
+
+            --fw-normal: 400;
+            --fw-medium: 500;
+            --fw-semibold: 600;
+            --fw-bold: 700;
+            --fw-extrabold: 800;
+
+            --spacing-medium: 20px;
+            --spacing-large: 40px;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s ease;
+
+            /* Specific colors from Tourly theme adjustments */
+            --united-nations-blue: hsl(214, 56%, 58%);
+            --bright-navy-blue: hsl(214, 57%, 51%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --black-coral: hsl(225, 8%, 42%);
+            --oxford-blue: hsl(208, 97%, 12%);
+            --yale-blue: hsl(214, 72%, 33%);
+            --blue-ncs: hsl(197, 100%, 36%);
+            --gunmetal: hsl(206, 34%, 20%);
+            --gainsboro: hsl(0, 0%, 88%);
+            --cultured: hsl(0, 0%, 98%);
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --onyx: hsl(0, 0%, 25%);
+            --jet: hsl(0, 0%, 20%);
+
+            --fs-1: calc(20px + 3.5vw);
+            --fs-2: calc(18px + 1.6vw);
+            --fs-3: calc(16px + 0.45vw);
+            --fs-4: 15px;
+            --fs-5: 14px;
+            --fs-6: 13px;
+            --fs-7: 12px;
+            --fs-8: 11px;
+
+            --fw-500: 500;
+            --fw-600: 600;
+            --fw-700: 700;
+            --fw-800: 800;
+
+            --transition: 0.25s ease-in-out;
+            --section-padding: 60px;
+            --radius-15: 15px;
+            --radius-25: 25px;
+        }
+
+        /* General Reset and Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--ff-poppins);
+            background: var(--cultured); /* Light background color from Tourly theme */
+            color: var(--black-coral); /* Default text color */
+            line-height: 1.6;
+            display: flex; /* Use flexbox for centering */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            padding: 20px; /* Add some padding for smaller screens */
+            overflow: hidden; /* Prevent scrollbar if content is centered vertically */
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 550px; /* Increased max-width for better content display */
+            margin: auto; /* Centering the container */
+            background: var(--white); /* White background for the card */
+            padding: 40px; /* Increased padding */
+            border-radius: var(--radius-15); /* Consistent border radius */
+            box-shadow: 0 10px 25px hsla(0,0,0,0.15); /* Stronger shadow */
+            text-align: center;
+            width: 100%; /* Ensure it takes full width up to max-width */
+            position: relative; /* For z-index if needed for popups */
+            z-index: 50; /* Ensure it's above the body background, below modals */
+        }
+
+        h2 {
+            font-family: var(--ff-montserrat);
+            font-size: var(--fs-2); /* Larger heading */
+            font-weight: var(--fw-bold);
+            color: var(--oxford-blue); /* Dark blue heading */
+            margin-bottom: 25px; /* More space below heading */
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: var(--fs-4); /* Slightly larger paragraph text */
+            margin: 12px 0; /* Adjusted vertical margin */
+            color: var(--jet); /* Darker text for details */
+            text-align: left; /* Align text to left for readability */
+        }
+
+        p strong {
+            color: var(--gunmetal); /* Stronger color for labels */
+        }
+
+        /* Button Styling */
+        .btn {
+            background-color: var(--united-nations-blue); /* Primary button color */
+            color: var(--white);
+            padding: 14px 30px; /* Larger padding for a more prominent button */
+            border: none;
+            border-radius: 50px; /* Fully rounded button */
+            margin-top: 30px; /* More space above the button */
+            font-size: var(--fs-5); /* Consistent font size */
+            font-weight: var(--fw-semibold);
+            cursor: pointer;
+            transition: background-color var(--transition); /* Smooth hover effect */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle button shadow */
+        }
+
+        .btn:hover {
+            background-color: var(--yale-blue); /* Darker blue on hover */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
+        }
+
+        /* Payment Success Popup Styles */
+        .payment-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* High z-index to appear on top of everything */
+            opacity: 0; /* Start hidden */
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .payment-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .payment-popup-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: var(--radius-15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            transform: translateY(-20px); /* Initial position for animation */
+            transition: transform 0.3s ease;
+        }
+
+        .payment-popup.show .payment-popup-content {
+            transform: translateY(0); /* Animate to final position */
+        }
+
+        .payment-popup-content ion-icon {
+            font-size: 80px;
+            color: #28a745; /* Green for success */
+            margin-bottom: 20px;
+            --ionicon-stroke-width: 25px; /* Adjust stroke thickness for the icon */
+        }
+
+        .payment-popup-content h3 {
+            font-family: var(--ff-montserrat);
+            font-size: var(--fs-h2);
+            font-weight: var(--fw-bold);
+            color: var(--oxford-blue);
+            margin-bottom: 10px;
+        }
+
+        .payment-popup-content p {
+            font-size: var(--fs-body);
+            color: var(--black-coral);
+            margin-bottom: 25px;
+        }
+
+        .payment-popup-content button {
+            padding: 12px 30px;
+            background-color: var(--bright-navy-blue);
+            color: var(--white);
+            border-radius: 50px;
+            font-weight: var(--fw-semibold);
+            transition: background-color 0.3s ease;
+        }
+
+        .payment-popup-content button:hover {
+            background-color: var(--yale-blue);
+        }
+
+        /* Hide the old success message */
+        #paidMsg {
+            display: none !important; 
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+                border-radius: 10px;
+            }
+            h2 {
+                font-size: var(--fs-3);
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: var(--fs-5);
+                margin: 10px 0;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: var(--fs-6);
+                margin-top: 25px;
+            }
+            .payment-popup-content {
+                padding: 30px;
+            }
+            .payment-popup-content ion-icon {
+                font-size: 60px;
+            }
+            .payment-popup-content h3 {
+                font-size: var(--fs-3);
+            }
+            .payment-popup-content p {
+                font-size: var(--fs-5);
+            }
+            .payment-popup-content button {
+                padding: 10px 25px;
+                font-size: var(--fs-5);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Booking Summary</h2>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Number of Travellers:</strong> <span id="travellers"></span></p>
+        <p><strong>Place:</strong> <span id="place"></span></p>
+        <p><strong>Check-in:</strong> <span id="date"></span></p>
+        <p><strong>Days:</strong> <span id="days"></span></p>
+        <p><strong>Entry Fee:</strong> ₹<span id="fee"></span></p>
+        <p><strong>Total Cost:</strong> ₹<span id="total"></span></p>
+
+        <button class="btn" onclick="payNow()">Pay Now</button>
+        <p class="success" id="paidMsg">✅ Payment Successful! Thank you 😊</p>
+    </div>
+
+    <div id="paymentPopup" class="payment-popup">
+        <div class="payment-popup-content">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <h3>Payment Successful!</h3>
+            <p>Your booking has been confirmed.</p>
+            <button id="closePopupBtn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        const user = JSON.parse(localStorage.getItem("user"));
+        const name = localStorage.getItem("name") || "Guest";
+        const travellers = parseInt(localStorage.getItem("travellers")) || 0;
+        const date = localStorage.getItem("date");
+        const place = localStorage.getItem("place") || "Unknown";
+        const days = parseInt(localStorage.getItem("days")) || 0; // Ensure days is parsed as int
+        const fee = parseFloat(localStorage.getItem("fee")) || 0;
+        
+        // Calculate total cost correctly
+        const total = travellers * fee * days; // Total = Travellers * Fee per person * Days
+
+        // Display data
+        document.getElementById("name").innerText = name;
+        document.getElementById("travellers").innerText = travellers;
+        document.getElementById("place").innerText = place;
+        document.getElementById("date").innerText = date;
+        document.getElementById("days").innerText = days;
+        document.getElementById("fee").innerText = fee;
+        document.getElementById("total").innerText = total;
+
+        // Get popup elements
+        const paymentPopup = document.getElementById("paymentPopup");
+        const closePopupBtn = document.getElementById("closePopupBtn");
+
+        // Functions to show/hide the payment popup
+        function showPaymentPopup() {
+            paymentPopup.classList.add("show");
+        }
+
+        function hidePaymentPopup() {
+            paymentPopup.classList.remove("show");
+            // Optionally, redirect or clear local storage after payment
+            // For now, let's just clear the booking-related local storage
+            localStorage.removeItem("name");
+            localStorage.removeItem("travellers");
+            localStorage.removeItem("date");
+            localStorage.removeItem("place");
+            localStorage.removeItem("days");
+            localStorage.removeItem("fee");
+            // You might want to redirect to a confirmation page or home page here
+            // window.location.href = "index.html"; 
+        }
+
+        // Add event listener to close button
+        closePopupBtn.addEventListener("click", hidePaymentPopup);
+
+        // Handle Pay Now functionality
+        function payNow() {
+            // Basic validation for essential booking data
+            if (!user || !user.id || !name || !place || travellers <= 0 || days <= 0 || !date || fee <= 0 || total <= 0) {
+                alert("Please ensure all booking details are complete and you are logged in.");
+                return;
+            }
+
+            const booking = {
+                userId: user.id,
+                name: name,
+                date: date,
+                place: place,
+                days: days,
+                travellers: travellers,
+                totalCost: total
+            };
+
+            // Simulate API call for booking confirmation
+            fetch("http://localhost:8080/api/tourist/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(booking)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Check for specific error messages from backend if available
+                    return response.text().then(text => { throw new Error(text || "Failed to store booking."); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showPaymentPopup(); // Show the animated success popup
+
+                setTimeout(() => {
+        paymentPopup.classList.remove("show");
+        window.location.href = "index.html";
+      }, 3000); // 3000ms = 3 seconds
+            })
+            .catch(error => {
+                alert("Error: " + error.message + " Please ensure the backend server is running and reachable at http://localhost:8080.");
+                console.error("Booking error:", error);
+            });
+        }
+    </script>
+
+</body>
+</html>

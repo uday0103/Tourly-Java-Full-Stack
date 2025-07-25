@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tourly - Cab Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+    /* General Reset and Body Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    ion-icon { pointer-events: none; }
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cultured); /* Light background from Tourly */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+    }
+
+    /* Reused styles from Tourly for consistency */
+    .container {
+      padding-inline: 15px;
+      max-width: 960px; /* Adjust as per your layout needs */
+      margin: 2rem auto;
+    }
+
+    .btn {
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: var(--fs-5);
+      border-radius: 100px;
+      padding: var(--padding, 8px 18px);
+      border: var(--border-width, 2px) solid transparent;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--bright-navy-blue);
+      border-color: var(--bright-navy-blue);
+    }
+
+    .btn-primary:is(:hover, :focus) {
+      background: var(--yale-blue);
+      border-color: var(--yale-blue);
+    }
+
+    .h2, .h3 {
+      font-weight: var(--fw-800);
+      font-family: var(--ff-montserrat);
+      color: var(--gunmetal); /* Dark text for headings */
+      text-transform: uppercase;
+    }
+
+    .h2 { font-size: var(--fs-2); }
+    .h3 {
+      font-size: var(--fs-3);
+      font-weight: var(--fw-700);
+    }
+
+    /* Header Styling based on your Flight page image */
+    header {
+      background: var(--gunmetal); /* Dark background for the entire header area */
+      padding-bottom: 20px; /* Space below the title */
+      position: sticky; /* Make header sticky */
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-top {
+      background: var(--hsl(0, 0%, 20%)); /* White background for the nav bar */
+      box-shadow: 0 2px 5px hsla(0, 0%, 0%, 0.1);
+      padding: 15px 0; /* Adjust padding as needed */
+      margin-bottom: 20px; /* Space between nav and title */
+    }
+
+    .header-top .container {
+      max-width: 1180px; /* Match overall container width */
+      margin: 0 auto;
+      display: flex;
+      justify-content: center; /* Center the nav items */
+      padding-inline: 15px;
+    }
+
+    .header-top nav ul {
+      display: flex;
+      gap: 30px; /* Space between nav items */
+      align-items: center;
+    }
+
+    .header-top nav ul li a {
+      color: var(--oxford-blue); /* Dark text for nav links on white background */
+      text-decoration: none;
+      font-size: var(--fs-4);
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+      transition: color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .header-top nav ul li a ion-icon {
+        font-size: 16px; /* Adjust icon size */
+    }
+
+    .header-top nav ul li a:is(:hover, :focus) {
+      color: var(--bright-navy-blue); /* Bright blue on hover */
+    }
+
+    /* Dropdown menu styling for the top nav */
+    .header-top .has-dropdown {
+      position: relative;
+    }
+
+    .header-top .dropdown-menu {
+      position: absolute;
+      top: 100%; /* Position below the link */
+      left: 50%; /* Center the dropdown with its parent */
+      transform: translateX(-50%); /* Adjust to truly center */
+      background-color: var(--white); /* White background for dropdown */
+      border-radius: var(--radius-15);
+      min-width: 150px; /* Minimum width for dropdown */
+      padding: 10px 0;
+      box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+      pointer-events: none;
+      z-index: 1001; /* Ensure dropdown is above other content */
+    }
+
+    .header-top .has-dropdown:hover .dropdown-menu,
+    .header-top .has-dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .header-top .dropdown-menu li a {
+      padding: 8px 15px;
+      color: var(--oxford-blue); /* Dark text for dropdown items */
+      font-size: var(--fs-5);
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .header-top .dropdown-menu li a:is(:hover, :focus) {
+      background-color: var(--cultured); /* Light background on hover */
+      color: var(--bright-navy-blue); /* Blue text on hover */
+    }
+
+    /* Main title below the nav */
+    .main-title-section {
+        max-width: 1180px; /* Match overall container width */
+        margin: 0 auto;
+        padding-inline: 15px;
+        text-align: center; /* Center the title */
+        color: var(--white); /* White text for the title */
+    }
+
+    .main-title-section h1 {
+      font-size: var(--fs-1); /* Larger font size for the main title */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+
+
+    /* Main Container (Cab Search) */
+    .container {
+      background: var(--white);
+      border-radius: var(--radius-15); /* Rounded corners */
+      box-shadow: 0 0 25px hsla(0, 0%, 0%, 0.08); /* Soft shadow */
+      padding: 30px; /* Increased padding */
+      margin-top: 30px; /* Space from header */
+    }
+
+    .search-form {
+      display: grid; /* Use CSS Grid for better control */
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible columns */
+      gap: 20px; /* More spacing */
+      align-items: center; /* Vertically align items */
+      margin-bottom: 25px; /* More margin */
+    }
+
+    .search-form input {
+      padding: 12px 18px; /* Increased padding */
+      font-size: var(--fs-5); /* Font size from theme */
+      border: 1px solid var(--gainsboro); /* Border from theme */
+      border-radius: 50px; /* Rounded input fields */
+      color: var(--jet); /* Text color */
+      outline: none; /* Remove default outline */
+      transition: border-color var(--transition);
+      background-color: var(--cultured); /* Light background for input */
+      width: 100%; /* Ensure inputs take full width of their grid cell */
+    }
+
+    .search-form input:focus {
+      border-color: var(--bright-navy-blue); /* Highlight on focus */
+    }
+
+    /* Specific styling for time input to ensure proper display */
+    .search-form input[type="time"] {
+      padding-right: 12px; /* Adjust padding for time input if needed */
+    }
+
+    .search-button-container {
+      grid-column: 1 / -1; /* Make button span all columns in grid */
+      text-align: center;
+      margin-top: 20px; /* More margin */
+    }
+
+    .search-button-container button {
+      padding: 12px 30px; /* Larger button */
+      font-size: var(--fs-5);
+      border-radius: 100px; /* Fully rounded button */
+      background-color: var(--bright-navy-blue); /* Primary button color */
+      color: var(--white);
+      border: 2px solid var(--bright-navy-blue);
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 150px; /* Give button a minimum width */
+    }
+
+    .search-button-container button:hover {
+      background-color: var(--yale-blue); /* Hover color */
+      border-color: var(--yale-blue);
+    }
+
+    .results h3 {
+      text-align: center;
+      color: var(--bright-navy-blue); /* Primary color for results heading */
+      margin-top: 30px; /* Space for results */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      border-bottom: 2px solid var(--gainsboro); /* Light border */
+      padding-bottom: 10px;
+    }
+
+    /* Cab Card Styling */
+    .cab-card {
+      display: flex;
+      flex-direction: row;
+      background: var(--cultured); /* Light background for cards */
+      border: 1px solid var(--gainsboro);
+      border-radius: var(--radius-15); /* Rounded corners */
+      padding: 20px; /* Increased padding */
+      margin: 20px auto; /* Margin for separation */
+      width: 100%;
+      max-width: 900px;
+      gap: 20px; /* Increased gap */
+      align-items: center;
+      box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.05); /* Soft shadow */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cab-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .cab-card img {
+      width: 180px; /* Slightly larger image */
+      height: 120px; /* Fixed height for consistency */
+      object-fit: cover; /* Ensure image covers the area */
+      border-radius: var(--radius-15);
+      border: 2px solid var(--gainsboro); /* Light border */
+    }
+
+    .cab-desc {
+      flex: 1;
+      text-align: left; /* Align description to left */
+      padding: 0 10px;
+      color: var(--black-coral); /* Standard text color */
+      font-size: var(--fs-5);
+    }
+
+    .cab-info {
+      flex: 1.2; /* Give more space to info */
+      text-align: right; /* Align info to right */
+    }
+
+    .cab-info h4 {
+      margin: 0 0 10px;
+      color: var(--oxford-blue); /* Dark blue for cab provider name */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      font-size: var(--fs-4);
+    }
+
+    .cab-info p {
+      margin: 6px 0;
+      color: var(--jet); /* Darker text for info */
+      font-family: var(--ff-poppins); /* Use poppins for info text */
+      font-size: var(--fs-5);
+    }
+
+    .cab-info p strong {
+      color: var(--bright-navy-blue); /* Highlight strong labels */
+    }
+
+    .book-btn {
+      background-color: var(--united-nations-blue); /* Blue for book button */
+      color: var(--white);
+      padding: 10px 20px;
+      border: none;
+      border-radius: 100px; /* Rounded button */
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 15px;
+      font-size: var(--fs-5);
+      box-shadow: 0 3px 8px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .book-btn:hover {
+      background-color: var(--yale-blue); /* Darker blue on hover */
+    }
+
+    /* Media Queries for responsiveness */
+    @media (max-width: 991px) {
+      .header-top .container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .header-top nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .header-top .dropdown-menu {
+          position: static;
+          transform: none; /* Remove transform for static positioning */
+          opacity: 1;
+          visibility: visible;
+          box-shadow: none;
+          background-color: transparent;
+          min-width: unset;
+          padding: 0;
+          text-align: center; /* Center dropdown items on mobile */
+      }
+      .header-top .dropdown-menu li a {
+          padding: 5px 20px;
+          background-color: var(--gunmetal); /* Dark background for sub-items */
+          margin-bottom: 2px;
+          border-radius: 5px;
+          color: var(--white); /* White text for sub-items */
+      }
+      .header-top .dropdown-menu li a:is(:hover, :focus) {
+          background-color: var(--yale-blue);
+      }
+
+      .main-title-section h1 {
+        font-size: var(--fs-2); /* Adjust title size for smaller screens */
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .cab-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 15px;
+      }
+
+      .cab-card img {
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+      }
+
+      .cab-desc, .cab-info {
+        text-align: center;
+        padding: 0;
+      }
+
+      .search-form {
+        grid-template-columns: 1fr; /* Single column layout for inputs */
+      }
+
+      .search-button-container {
+        grid-column: auto; /* Reset grid column span */
+      }
+
+      .search-button-container button {
+        padding: 10px 25px;
+        font-size: var(--fs-6);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container { max-width: 800px; padding: 40px; }
+      .cab-card { flex-direction: row; text-align: left; }
+      .cab-card img { margin-bottom: 0; }
+      .search-form {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+      .search-button-container {
+        grid-column: 1 / -1; /* Maintain full width for button */
+      }
+    }
+
+    @media (min-width: 992px) {
+      .container { max-width: 1050px; }
+      .header-top .container {
+          flex-direction: row;
+          justify-content: center;
+      }
+      .header-top nav ul {
+          flex-direction: row;
+      }
+      /* Desktop specific grid for search form inputs */
+      .search-form {
+        grid-template-columns: repeat(4, 1fr) auto; /* 4 equal columns for inputs, auto for button */
+        gap: 20px;
+      }
+      .search-form input { flex: unset; } /* Remove flex for grid */
+      .search-button-container {
+        grid-column: auto; /* Button takes its own column on larger screens */
+        text-align: left; /* Align button to the left in its grid cell */
+        margin-top: 0; /* Reset margin */
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container { max-width: 1180px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="./index.html" class="navbar-link">HOME</a></li>
+          <li><a href="./Aboutus.html" class="navbar-link">ABOUT US</a></li>
+          <li class="has-dropdown">
+            <a href="#" class="navbar-link">Services <ion-icon name="chevron-down-outline"></ion-icon></a>
+            <ul class="dropdown-menu">
+              <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+              <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+              <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+            </ul>
+          </li>
+          <li><a href="./touristindex.html" class="navbar-link">PACKAGES</a></li>
+          
+          <li><a href="./index.html#gallery" class="navbar-link">Gallery</a></li>
+          <li><a href="./ContactUs.html" class="navbar-link">Contact Us</a></li>
+          <li><a href="./User.html" class="navbar-link">My Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="main-title-section">
+    <h1>Tourly - Book Your Cab</h1>
+  </div>
+</header>
+
+<div class="container">
+  <form id="cabSearchForm" class="search-form">
+    <input type="text" id="cabFrom" placeholder="Pickup Location" required>
+    <input type="text" id="cabTo" placeholder="Drop Location" required>
+    <input type="time" id="cabTime" required>
+    <input type="number" id="cabPassengers" placeholder="No. of Passengers" value="1" min="1" required>
+    <div class="search-button-container">
+      <button type="submit">Search</button>
+    </div>
+  </form>
+  <div id="cabResults" class="results"></div>
+</div>
+
+<script>
+  const mockCabs = [
+    {
+      provider: "Zoomcar",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹550",
+      seats: "4 Seater",
+      image: "./assets/cab images/cab.jpg",
+      description: "Self-drive option with top-notch comfort and flexibility."
+    },
+    {
+      provider: "Lyft",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹350",
+      seats: "4 Seater",
+      image: "./assets/cab images/cab3.jpg",
+      description: "Efficient rides with reliable service."
+    },
+    {
+      provider: "Savari",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹250",
+      seats: "3 Seater",
+      image: "./assets/cab images/cab10.jpg",
+      description: "Affordable and comfortable ride with professional drivers."
+    },
+    {
+      provider: "Ola",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹500",
+      seats: "4 Seater",
+      image: "./assets/cab images/cabl.jpg",
+      description: "Air-conditioned rides with on-time service."
+    },
+      {
+      provider: "uber",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹250",
+      seats: "3 Seater",
+      image: "./assets/cab images/cab12.jpg",
+      description: "Affordable and comfortable ride with professional drivers."
+    },
+    {
+      provider: "Zoomcar",
+      from: "Delhi",
+      to: "Faridabad",
+      price: "₹540",
+      seats: "4 Seater",
+      image: "./assets/cab images/cab.jpg",
+      description: "Self-drive option with top-notch comfort and flexibility."
+    },
+    {
+      provider: "Supervega",
+      from: "Delhi",
+      to: "Noida",
+      price: "₹350",
+      seats: "4 Seater",
+      image: "./assets/cab images/cab6.jpg",
+      description: "Efficient rides with reliable service."
+    },
+    {
+      provider: "Savari",
+      from: "Delhi",
+      to: "Faridabad",
+      price: "₹250",
+      seats: "3 Seater",
+      image: "./assets/cab images/cab10.jpg",
+      description: "Affordable and comfortable ride with professional drivers."
+    },
+    {
+      provider: "Ola",
+      from: "Delhi",
+      to: "Faridabad",
+      price: "₹500",
+      seats: "4 Seater",
+      image: "./assets/cab images/cabl.jpg",
+      description: "Air-conditioned rides with on-time service."
+    }
+  ];
+
+  document.getElementById("cabSearchForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const from = document.getElementById("cabFrom").value.trim().toLowerCase();
+    const to = document.getElementById("cabTo").value.trim().toLowerCase();
+    const cabTime = document.getElementById("cabTime").value; // Get the time
+    const cabPassengers = document.getElementById("cabPassengers").value; // Get passengers
+
+    const resultsDiv = document.getElementById("cabResults");
+    resultsDiv.innerHTML = "";
+
+    let matchingCabs = [];
+
+    if (from && to) {
+      matchingCabs = mockCabs.filter(cab =>
+        cab.from.toLowerCase() === from &&
+        cab.to.toLowerCase() === to
+      );
+      resultsDiv.innerHTML = `<h3>Available Cabs from ${from.toUpperCase()} to ${to.toUpperCase()}</h3>`;
+    }
+
+    if (matchingCabs.length > 0) {
+      matchingCabs.forEach(cab => {
+        // Add the time and passengers to the cab object before stringifying
+        const cabWithBookingDetails = { ...cab, time: cabTime, passengers: cabPassengers };
+        resultsDiv.innerHTML += `
+          <div class="cab-card">
+            <img src="${cabWithBookingDetails.image}" alt="${cabWithBookingDetails.provider}">
+            <div class="cab-desc">${cabWithBookingDetails.description}</div>
+            <div class="cab-info">
+              <h4>${cabWithBookingDetails.provider}</h4>
+              <p><strong>From:</strong> ${cabWithBookingDetails.from}</p>
+              <p><strong>To:</strong> ${cabWithBookingDetails.to}</p>
+              <p><strong>Seats:</strong> ${cabWithBookingDetails.seats}</p>
+              <p><strong>Price:</strong> ${cabWithBookingDetails.price}</p>
+              <button class="book-btn" data-cab='${JSON.stringify(cabWithBookingDetails)}'>Book Now</button>
+            </div>
+          </div>
+        `;
+      });
+    } else {
+      resultsDiv.innerHTML += `<h3>No cabs found for your search</h3>`;
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("book-btn")) {
+      const cabData = e.target.getAttribute('data-cab');
+      const cab = JSON.parse(cabData);
+      addToCart(cab);
+    }
+  });
+
+  function addToCart(cab) {
+    let cart = JSON.parse(localStorage.getItem('cabCart')) || [];
+    cart.push(cab);
+    localStorage.setItem('cabCart', JSON.stringify(cart));
+    window.location.href = 'CabCart.html';
+  }
+</script>
+
+</body>
+</html>

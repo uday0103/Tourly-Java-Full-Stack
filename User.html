@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+        :root {
+            /* Colors from Tourly theme */
+            --united-nations-blue: hsl(214, 56%, 58%);
+            --bright-navy-blue: hsl(214, 57%, 51%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --black-coral: hsl(225, 8%, 42%);
+            --oxford-blue: hsl(208, 97%, 12%);
+            --yale-blue: hsl(214, 72%, 33%);
+            --blue-ncs: hsl(197, 100%, 36%);
+            --gunmetal: hsl(206, 34%, 20%);
+            --gainsboro: hsl(0, 0%, 88%);
+            --cultured: hsl(0, 0%, 98%);
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --onyx: hsl(0, 0%, 25%);
+            --jet: hsl(0, 0%, 20%);
+
+            /* Typography from Tourly theme */
+            --ff-poppins: "Poppins", sans-serif;
+            --ff-montserrat: "Montserrat", sans-serif;
+
+            /* Dashboard specific colors, aligned with Tourly */
+            --primary-color: var(--bright-navy-blue);
+            --primary-hover-color: var(--yale-blue);
+            --background-color: var(--cultured); /* Light background for the dashboard body */
+            --card-background: var(--white);
+            --text-color: var(--gunmetal);
+            --light-text-color: var(--black-coral);
+            --border-color: var(--gainsboro);
+            --shadow-color: hsla(0, 0%, 0%, 0.08); /* Adjusted for lighter shadow */
+        }
+
+        body {
+            font-family: var(--ff-poppins);
+            margin: 0;
+            padding: 0;
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: var(--gunmetal); /* Dark header like main site's sticky header */
+            color: var(--white);
+            padding: 20px 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-weight: 700; /* Using actual font-weight value */
+            font-family: var(--ff-montserrat);
+        }
+
+        .profile-card, .bookings-card {
+            background: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover, .bookings-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-weight: 600; /* Using actual font-weight value */
+            font-family: var(--ff-montserrat);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .profile-info p {
+            margin: 8px 0;
+            color: var(--light-text-color);
+        }
+
+        .profile-info strong {
+            color: var(--text-color);
+            display: inline-block;
+            min-width: 70px;
+        }
+
+        .booking-type-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .booking-type-buttons button {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px 18px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500; /* Using actual font-weight value */
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .booking-type-buttons button:hover {
+            background: var(--primary-hover-color);
+            transform: translateY(-2px);
+        }
+
+        .booking-type-buttons button.active {
+            background: var(--primary-hover-color);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .booking-entry {
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+
+        .booking-entry:last-child {
+            border-bottom: none;
+        }
+
+        .booking-entry strong {
+            color: var(--primary-color);
+            font-weight: 600; /* Using actual font-weight value */
+        }
+
+        .booking-entry p {
+            margin: 5px 0;
+            color: var(--light-text-color);
+        }
+
+        .home-btn {
+            padding: 10px 20px;
+            background-color: var(--bright-navy-blue); /* Primary button color from Tourly */
+            color: var(--white);
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .home-btn:hover {
+            background-color: var(--yale-blue); /* Darker primary color on hover */
+        }
+
+        .header button { /* Logout button */
+            padding: 8px 15px;
+            background-color: var(--white);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header button:hover {
+            background-color: var(--gainsboro); /* Lighter hover for white button */
+        }
+
+        /* Styles for the cancel button container and buttons */
+        .cancel-button-container {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .cancel-button {
+            padding: 10px 20px;
+            background-color: #dc3545; /* Red color for cancel */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500; /* Using actual font-weight value */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 5px; /* Added some margin between the two cancel buttons */
+        }
+
+        .cancel-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .booking-type-buttons {
+                flex-direction: column; /* Stack buttons vertically on small screens */
+            }
+
+            .booking-type-buttons button {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .profile-card, .bookings-card {
+                padding: 20px;
+            }
+        }
+
+        /* Table-specific styles for checkboxes */
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .bookings-table th, .bookings-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+        .bookings-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600; /* Using actual font-weight value */
+        }
+        .bookings-table tr:nth-child(even) {
+            background-color: var(--cultured); /* Lighter shade for even rows */
+        }
+        .bookings-table tr:hover {
+            background-color: var(--gainsboro); /* Highlight on hover */
+        }
+        .bookings-table th.checkbox-col,
+        .bookings-table td.checkbox-col {
+            width: 30px; /* Adjust as needed */
+            text-align: center;
+        }
+
+        /* --- Popup Styles --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+
+        .popup-overlay.show .popup-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .popup-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: none; /* Override default h3 border */
+            padding-bottom: 0;
+        }
+
+        .popup-content p {
+            font-size: 17px;
+            color: var(--text-color);
+            margin-bottom: 25px;
+        }
+
+        .popup-buttons button {
+            padding: 10px 25px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .popup-buttons .btn-confirm {
+            background-color: #dc3545; /* Red for confirm/yes */
+            color: white;
+        }
+        .popup-buttons .btn-confirm:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .popup-buttons .btn-cancel {
+            background-color: var(--gainsboro); /* Lighter neutral for cancel/no */
+            color: var(--text-color);
+        }
+        .popup-buttons .btn-cancel:hover {
+            background-color: var(--spanish-gray);
+            transform: translateY(-2px);
+        }
+
+        /* Notification popup specific styles */
+        .notification-popup {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: fixed;
+            top: 20px; /* Position at top right */
+            right: 20px;
+            max-width: 300px;
+            z-index: 1001;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .notification-popup.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification-popup.success {
+            border-left: 5px solid #28a745; /* Green border for success */
+        }
+
+        .notification-popup.error {
+            border-left: 5px solid #dc3545; /* Red border for error */
+        }
+
+        .notification-popup p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-popup i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .notification-popup.success i {
+            color: #28a745;
+        }
+        .notification-popup.error i {
+            color: #dc3545;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksKfSjQ/l77wz19D9c7Fj+Y6f0hPzR7fX4a6z5c0zP8+1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <button onclick="window.location.href='index.html'" class="home-btn">🏠 Home</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>User Dashboard</h1>
+            <button onclick="logoutBtn()">Logout</button>
+        </div>
+
+        <div class="profile-card">
+            <h2>Welcome,
+                <span id="userNameDisplay"></span>
+                <input type="text" id="editNameInput" style="display:none;" />
+                <button id="editNameBtn" onclick="enableEditName()">Edit</button>
+                <button id="saveNameBtn" style="display:none;" onclick="saveUpdatedName()">Save</button>
+            </h2>
+            <h2>
+                Your email: <span id="userEmail"></span><br>
+                Your Mobile: <span id="userMobile"></span>
+            </h2>
+        </div>
+
+        <div class="cancel-button-container">
+            <button id="selectCancelTripBtn" class="cancel-button" onclick="toggleCancelMode()">Select Trip to Cancel</button>
+            <button id="cancelSelectedBtn" class="cancel-button" style="display:none;">Cancel Selected</button>
+        </div>
+
+        <div class="bookings-card">
+            <h3>My Bookings</h3>
+
+            <div class="booking-type-buttons" id="bookingButtons">
+                <button id="cabsButton" onclick="loadBookings('cabs', this)">Cabs</button>
+                <button id="hotelsButton" onclick="loadBookings('hotels', this)">Hotels</button>
+                <button id="flightsButton" onclick="loadBookings('flights', this)">Flights</button>
+                <button id="packagesButton" onclick="loadBookings('tourist', this)">Packages</button>
+            </div>
+
+            <div id="bookingDetails">
+                <p>Select a booking type to view your bookings.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmationPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>Confirmation</h3>
+            <p id="confirmationMessage"></p>
+            <div class="popup-buttons">
+                <button class="btn-confirm" id="confirmYes">Yes, Cancel</button>
+                <button class="btn-cancel" id="confirmNo">No, Keep</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notificationPopup" class="notification-popup">
+        <p id="notificationMessage"><i class="fas"></i> <span></span></p>
+    </div>
+
+    <script src="./assets/js/User.js"></script>
+</body>
+</html>

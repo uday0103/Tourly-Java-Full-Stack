@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travex – Tourist Places</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    /* Custom Properties (Colors and Typography) from Tourly's style.css */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+
+    /* General Reset and Body Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button, ion-icon { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+    ion-icon { pointer-events: none; }
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cultured); /* Light background from Tourly */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+    }
+
+    /* Reused styles from Tourly for consistency */
+    .container {
+      padding-inline: 15px;
+      max-width: 960px; /* Adjust as per your layout needs */
+      margin: 2rem auto;
+    }
+
+    .btn {
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: var(--fs-5);
+      border-radius: 100px;
+      padding: var(--padding, 8px 18px);
+      border: var(--border-width, 2px) solid transparent;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--bright-navy-blue);
+      border-color: var(--bright-navy-blue);
+    }
+
+    .btn-primary:is(:hover, :focus) {
+      background: var(--yale-blue);
+      border-color: var(--yale-blue);
+    }
+
+    .h2, .h3 {
+      font-weight: var(--fw-800);
+      font-family: var(--ff-montserrat);
+      color: var(--gunmetal); /* Dark text for headings */
+      text-transform: uppercase;
+    }
+
+    .h2 { font-size: var(--fs-2); }
+    .h3 {
+      font-size: var(--fs-3);
+      font-weight: var(--fw-700);
+    }
+
+    /* Header (mimicking Tourly's main header) - MODIFIED */
+    header {
+      background: var(--gunmetal); /* Changed to a darker blue for the main header background */
+      color: var(--white);
+      text-align: center;
+      padding-top: 10px; /* Increased padding top */
+      padding-bottom: 20px; /* Padding below title */
+      box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
+      position: relative;
+      z-index: 1;
+      /* Removed margin-top, as navbar is now above it */
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: var(--fs-2);
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-800);
+    }
+
+    /* Navbar styling (mimicking Tourly's header-bottom) - MODIFIED */
+    .header-bottom {
+      background: var(--white); /* White background for the navbar itself */
+      border-radius: var(--radius-15); /* Rounded corners for the navbar container */
+      box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.1); /* Shadow for the navbar container */
+      padding: 0; /* Remove internal padding, let navbar-list handle it */
+      position: sticky; /* Make it sticky */
+      top: 0; /* Stick to the top */
+      z-index: 99; /* Higher z-index to ensure it stays on top */
+      margin-top: -25px; /* No top margin needed, it's at the very top */
+      max-width: 900px; /* Constrain width of the navbar */
+      margin-inline: auto; /* Center the navbar */
+      transform: translateY(20px); /* Adjust vertical position to match screenshot */
+    }
+
+    .header-bottom .container {
+      display: flex;
+      justify-content: center; /* Center the navbar list */
+      align-items: center;
+      max-width: 100%; /* Allow navbar to fill its constrained parent width */
+      padding-block: 0;
+      padding-inline: 15px; /* Add horizontal padding inside the container */
+    }
+
+    .navbar-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0; /* Remove gap, use padding on links for spacing */
+      width: 100%; /* Make list take full width to distribute links */
+    }
+
+    .navbar-list li {
+        flex-grow: 1; /* Allow list items to grow and distribute space */
+        text-align: center; /* Center text within each list item */
+    }
+
+    .navbar-link {
+      color: var(--black) !important; /* Force black color for visibility against white background */
+      font-size: var(--fs-5); /* Slightly smaller font for more links */
+      font-weight: var(--fw-500);
+      text-transform: uppercase;
+      padding: 18px 10px; /* Adjusted padding for tighter links */
+      transition: var(--transition);
+      white-space: nowrap; /* Prevent links from wrapping */
+    }
+
+    .navbar-link:is(:hover, :focus) {
+      color: var(--bright-navy-blue) !important; /* Force bright blue on hover */
+      background-color: var(--cultured); /* Subtle background on hover */
+    }
+
+    /* Navbar Dropdown */
+    .navbar-list .has-dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 150px;
+        background: var(--white) !important; /* Ensure white background for dropdown */
+        border-radius: var(--radius-15);
+        box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        z-index: 5;
+        padding: 10px 0;
+    }
+
+    .navbar-list .has-dropdown:hover .dropdown-menu,
+    .navbar-list .has-dropdown:focus-within .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .dropdown-link {
+        display: block;
+        padding: 10px 20px;
+        color: var(--jet) !important; /* Force dark text for dropdown links */
+        font-size: var(--fs-5);
+        font-weight: var(--fw-500);
+        text-transform: capitalize;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-link:is(:hover, :focus) {
+        background-color: var(--cultured) !important; /* Light background on hover */
+        color: var(--bright-navy-blue) !important; /* Bright blue on hover */
+    }
+    .navbar-list .has-dropdown .navbar-link {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center icon with text */
+        gap: 5px;
+    }
+    .navbar-list .has-dropdown .navbar-link ion-icon {
+        font-size: 16px;
+    }
+
+    /* Main Container */
+    .main-content-container {
+      background: var(--white);
+      border-radius: var(--radius-15); /* Rounded corners */
+      box-shadow: 0 0 25px hsla(0, 0%, 0%, 0.08); /* Soft shadow */
+      padding: 30px; /* Increased padding */
+      margin-top: 30px; /* Space from header */
+    }
+
+    /* Card Styling */
+    .card {
+      background-color: var(--cultured); /* Light background for cards */
+      border-radius: var(--radius-15);
+      box-shadow: 0 5px 15px hsla(0, 0%, 0%, 0.05);
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column; /* Default to column for small screens */
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .card img {
+      width: 100%; /* Make image full width on small screens */
+      height: 200px; /* Consistent height */
+      object-fit: cover;
+      border-radius: var(--radius-15) var(--radius-15) 0 0; /* Rounded top corners */
+    }
+
+    .card-content {
+      padding: 20px; /* Increased padding */
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      margin: 0 0 10px;
+      color: var(--oxford-blue); /* Dark blue for place name */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      font-size: var(--fs-3); /* Larger heading */
+      text-transform: capitalize; /* More natural for place names */
+    }
+
+    .card-content p {
+      margin: 6px 0;
+      font-size: var(--fs-5);
+      color: var(--jet); /* Darker text for info */
+    }
+
+    .card-content p strong {
+      color: var(--bright-navy-blue); /* Highlight strong labels */
+    }
+
+    .card-content .btn {
+      margin-top: 20px; /* More spacing */
+      padding: 12px 30px; /* Larger button */
+      background-color: var(--united-nations-blue); /* Blue for book button */
+      border: 2px solid var(--united-nations-blue);
+      border-radius: 100px; /* Fully rounded */
+      font-weight: var(--fw-600);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .card-content .btn:hover {
+      background-color: var(--yale-blue); /* Darker blue on hover */
+      border-color: var(--yale-blue);
+    }
+
+    /* Media Queries */
+    @media (min-width: 580px) {
+      .container { max-width: 580px; }
+      .card {
+        flex-direction: row; /* Row layout on larger screens */
+        text-align: left;
+      }
+      .card img {
+        width: 250px;
+        height: auto; /* Allow height to adjust */
+        border-radius: var(--radius-15) 0 0 var(--radius-15); /* Rounded left corners */
+      }
+      .card-content {
+        align-items: flex-start; /* Align text to start */
+        text-align: left;
+      }
+      /* Adjust navbar width on smaller desktops */
+      .header-bottom {
+        max-width: 700px; /* Wider for more links */
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container { max-width: 800px; padding: 40px; }
+      header { padding: 30px 0; }
+      .card img { width: 300px; } /* Larger image on bigger screens */
+      .header-bottom {
+        max-width: 850px; /* Even wider */
+      }
+      .navbar-link {
+        font-size: var(--fs-4); /* Restore font size for wider screens */
+        padding: 20px 15px; /* Restore padding */
+      }
+    }
+
+    @media (min-width: 992px) {
+      .container { max-width: 1050px; }
+      .card {
+        flex-direction: row; /* Ensure row layout */
+        max-width: 100%; /* Take full width of container */
+      }
+      .header-bottom {
+        max-width: 960px; /* Max width matching typical container */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+
+  <header>
+    <div class="header-bottom">
+      <div class="container">
+        <ul class="navbar-list">
+          <li><a href="./index.html" class="navbar-link">HOME</a></li>
+          <li><a href="./Aboutus.html" class="navbar-link">ABOUT US</a></li>
+          <li class="has-dropdown">
+            <a href="#" class="navbar-link">SERVICES <ion-icon name="chevron-down-outline"></ion-icon></a>
+            <ul class="dropdown-menu">
+              <li><a href="./FlightIndex.html" class="dropdown-link">Flights</a></li>
+              <li><a href="./CabsIndex.html" class="dropdown-link">Cabs</a></li>
+              <li><a href="./Hotels.html" class="dropdown-link">Hotels</a></li>
+            </ul>
+          </li>
+          <li><a href="./touristindex.html" class="navbar-link">PACKAGES</a></li>
+          <li><a href="index.html#gallery" class="navbar-link">GALLERY</a></li>
+          <li><a href="./ContactUs.html" class="navbar-link">CONTACT US</a></li>
+          <li><a href="./User.html" class="navbar-link">MY PROFILE</a></li>
+        </ul>
+      </div>
+    </div>
+  <h1>Tourly - Explore Tourist Places</h1>
+  </header>
+
+
+<div class="container main-content-container">
+
+  <div class="card">
+    <img src="https://th.bing.com/th/id/OIP.90_HKt0sXX5cLZS8QyzHAAHaEo" alt="Goa Beach">
+    <div class="card-content">
+      <h3>Goa Beach</h3>
+      <p><strong>Location:</strong> Goa</p>
+      <p><strong>Entry Fee:</strong> ₹200</p>
+      <button class="btn btn-primary" onclick="bookNow('Goa Beach', 200)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://www.adotrip.com/public/images/areas/master_images/5f0d9473e2cfa-Thar_Desert_Attractions.jpg" alt="Thar Desert">
+    <div class="card-content">
+      <h3>Thar Desert</h3>
+      <p><strong>Location:</strong> Rajasthan</p>
+      <p><strong>Entry Fee:</strong> ₹180</p>
+      <button class="btn btn-primary" onclick="bookNow('Thar Desert', 180)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://www.tripsavvy.com/thmb/zyqX35L3rgFRuVrbGioDKoqPezc=/2121x1414/filters:fill(auto,1)/GettyImages-930881934-5ae56fe48023b90036464e72.jpg" alt="Manali">
+    <div class="card-content">
+      <h3>Manali</h3>
+      <p><strong>Location:</strong> Himachal Pradesh</p>
+      <p><strong>Entry Fee:</strong> ₹250</p>
+      <button class="btn btn-primary" onclick="bookNow('Manali', 250)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://cdn.getyourguide.com/img/tour/5b881032cf989.jpeg/98.jpg" alt="Ajanta Caves">
+    <div class="card-content">
+      <h3>Ajanta Caves</h3>
+      <p><strong>Location:</strong> Maharashtra</p>
+      <p><strong>Entry Fee:</strong> ₹120</p>
+      <button class="btn btn-primary" onclick="bookNow('Ajanta Caves', 120)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://live.staticflickr.com/815/40215069994_3c2272653a_b.jpg" alt="Dal Lake">
+    <div class="card-content">
+      <h3>Dal Lake</h3>
+      <p><strong>Location:</strong> Kashmir</p>
+      <p><strong>Entry Fee:</strong> ₹300</p>
+      <button class="btn btn-primary" onclick="bookNow('Dal Lake', 300)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://visitsou.com/wp-content/uploads/15-The-Statue-of-Unity-A-Tribute-to-Unity-and-Heritage.jpg" alt="Statue of Unity">
+    <div class="card-content">
+      <h3>Statue of Unity</h3>
+      <p><strong>Location:</strong> Gujarat</p>
+      <p><strong>Entry Fee:</strong> ₹350</p>
+      <button class="btn btn-primary" onclick="bookNow('Statue of Unity', 350)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="./assets/tourist images/Charminar.jpeg" alt="Charminar">
+    <div class="card-content">
+      <h3>Charminar</h3>
+      <p><strong>Location:</strong> Hyderabad</p>
+      <p><strong>Entry Fee:</strong> ₹50</p>
+      <button class="btn btn-primary" onclick="bookNow('Charminar', 50)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="./assets/tourist images/Taj Mahal.jpg" alt="Taj Mahal">
+    <div class="card-content">
+      <h3>Taj Mahal</h3>
+      <p><strong>Location:</strong> Agra</p>
+      <p><strong>Entry Fee:</strong> ₹1000</p>
+      <button class="btn btn-primary" onclick="bookNow('Taj Mahal', 1000)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="./assets/tourist images/Golden Temple.jpeg" alt="Golden Temple">
+    <div class="card-content">
+      <h3>Golden Temple</h3>
+      <p><strong>Location:</strong> Amritsar</p>
+      <p><strong>Entry Fee:</strong>₹2500 </p>
+      <button class="btn btn-primary" onclick="bookNow('Golden Temple', 0)">Book Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="./assets/tourist images/Mysore Palace.png" alt="Mysore Palace">
+    <div class="card-content">
+      <h3>Mysore Palace</h3>
+      <p><strong>Location:</strong> Mysore</p>
+      <p><strong>Entry Fee:</strong> ₹200</p>
+      <button class="btn btn-primary" onclick="bookNow('Mysore Palace', 200)">Book Now</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function bookNow(place, fee) {
+    // Save data to localStorage
+    localStorage.setItem("place", place);
+    localStorage.setItem("fee", fee);
+
+    // Redirect to booking page
+    window.location.href = "touristbooking.html";
+  }
+</script>
+
+</body>
+</html>

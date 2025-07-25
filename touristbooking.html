@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travex – Booking Details</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------------------------------------------------- */
+    /* >>  START EDITING/CHECKING HERE <<                   */
+    /* ---------------------------------------------------- */
+    :root {
+      --united-nations-blue: hsl(214, 56%, 58%);
+      --bright-navy-blue: hsl(214, 57%, 51%);
+      --spanish-gray: hsl(0, 0%, 60%);
+      --black-coral: hsl(225, 8%, 42%);
+      --oxford-blue: hsl(208, 97%, 12%);
+      --yale-blue: hsl(214, 72%, 33%);
+      --blue-ncs: hsl(197, 100%, 36%);
+      --gunmetal: hsl(206, 34%, 20%);
+      --gainsboro: hsl(0, 0%, 88%);
+      --cultured: hsl(0, 0%, 98%);
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(0, 0%, 0%);
+      --onyx: hsl(0, 0%, 25%);
+      --jet: hsl(0, 0%, 20%);
+
+      --ff-poppins: "Poppins", sans-serif;
+      --ff-montserrat: "Montserrat", sans-serif;
+
+      --fs-1: calc(20px + 3.5vw);
+      --fs-2: calc(18px + 1.6vw);
+      --fs-3: calc(16px + 0.45vw);
+      --fs-4: 15px;
+      --fs-5: 14px;
+      --fs-6: 13px;
+      --fs-7: 12px;
+      --fs-8: 11px;
+
+      --fw-500: 500;
+      --fw-600: 600;
+      --fw-700: 700;
+      --fw-800: 800;
+
+      --transition: 0.25s ease-in-out;
+      --section-padding: 60px;
+      --radius-15: 15px;
+      --radius-25: 25px;
+    }
+    /* ---------------------------------------------------- */
+    /* >>  END EDITING/CHECKING HERE <<                     */
+    /* ---------------------------------------------------- */
+
+    /* General Reset and Body Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    li { list-style: none; }
+    a { text-decoration: none; }
+    a, img, span, input, label, button { display: block; }
+    input, button { background: none; border: none; font: inherit; }
+    button { cursor: pointer; }
+
+    html {
+      font-family: var(--ff-poppins);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cultured); /* Light background color */
+      color: var(--black-coral); /* Default text color */
+      line-height: 1.6;
+      display: flex; /* Use flexbox for centering */
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Ensure it takes full viewport height */
+      overflow: hidden; /* Prevent scrollbar if content is centered vertically */
+    }
+
+    /* Reused button styles */
+    .btn {
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: var(--fs-5);
+      border-radius: 100px; /* Fully rounded */
+      padding: var(--padding, 12px 30px); /* Larger padding */
+      border: var(--border-width, 2px) solid transparent; /* Border for hover effect */
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--united-nations-blue);
+      border-color: var(--united-nations-blue);
+    }
+
+    .btn-primary:is(:hover, :focus) {
+      background: var(--yale-blue);
+      border-color: var(--yale-blue);
+    }
+
+    .h2, .h3 {
+      font-weight: var(--fw-800);
+      font-family: var(--ff-montserrat);
+      color: var(--gunmetal); /* Dark text for headings */
+      text-transform: uppercase;
+    }
+
+    /* Form Box Styling */
+    .form-box {
+      background: var(--white); /* White background for the form box */
+      padding: 40px; /* Increased padding */
+      border-radius: var(--radius-15); /* Consistent border radius */
+      box-shadow: 0 10px 25px hsla(0, 0%, 0%, 0.15); /* Stronger shadow */
+      width: 100%;
+      max-width: 450px; /* Wider form for better input spacing */
+      text-align: center;
+      position: relative; /* Needed for z-index */
+      z-index: 60;
+    }
+
+    h2 {
+      margin-bottom: 25px; /* More space below heading */
+      color: var(--oxford-blue); /* Dark blue heading */
+      font-family: var(--ff-montserrat);
+      font-weight: var(--fw-700);
+      font-size: var(--fs-3);
+      text-transform: uppercase;
+    }
+
+    /* Input Fields */
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+      width: calc(100% - 20px); /* Account for padding */
+      padding: 12px 15px; /* More padding for inputs */
+      margin: 8px 0; /* Consistent vertical margin */
+      border: 1px solid var(--gainsboro); /* Lighter border color */
+      border-radius: 8px; /* Slightly rounded corners */
+      font-size: var(--fs-5);
+      color: var(--jet); /* Darker text color */
+      font-family: var(--ff-poppins);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--bright-navy-blue); /* Blue border on focus */
+      box-shadow: 0 0 0 2px hsla(214, 57%, 51%, 0.2); /* Subtle blue glow on focus */
+    }
+
+    /* Placeholder text style */
+    input::placeholder {
+      color: var(--spanish-gray); /* Lighter placeholder text */
+    }
+
+    /* Date input specific styles */
+    input[type="date"] {
+      text-transform: uppercase; /* Match the "dd-mm-yyyy" style */
+    }
+
+    p {
+      margin: 15px 0 5px; /* Margin for the label */
+      font-size: var(--fs-5);
+      color: var(--jet); /* Darker text for label */
+      text-align: left; /* Align label to the left */
+      width: calc(100% - 20px); /* Match input width */
+      max-width: 450px; /* Match form box max-width */
+      margin-inline: auto; /* Center the paragraph */
+      font-weight: var(--fw-500);
+    }
+
+    /* Button Container for side-by-side buttons */
+    .button-container {
+      display: flex;
+      justify-content: center; /* Center buttons horizontally */
+      gap: 15px; /* Space between buttons */
+      margin-top: 25px; /* Space above the button group */
+      flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    }
+
+    .button-container .btn {
+      margin-top: 0; /* Remove individual button top margin as container handles it */
+      min-width: 150px; /* Ensure buttons have a minimum width */
+    }
+
+    /* Style for the "Back to Packages" button - using a secondary theme style */
+    .btn-secondary {
+      background: var(--spanish-gray); /* A neutral grey background */
+      border-color: var(--spanish-gray);
+      color: var(--white);
+    }
+
+    .btn-secondary:is(:hover, :focus) {
+      background: var(--black-coral); /* Darker grey on hover */
+      border-color: var(--black-coral);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .form-box {
+        padding: 25px;
+        width: calc(100% - 40px); /* Smaller padding on very small screens */
+      }
+      .button-container {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 10px;
+      }
+      .button-container .btn {
+        width: 100%; /* Make buttons full width when stacked */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Enter Your Details</h2>
+    <input type="text" id="name" placeholder="Your Name" required/>
+    <input type="number" id="travellers" placeholder="Number of Travellers" min="1" />
+    <p>Select Check-in Date</p>
+    <input type="date" id="date" placeholder="select check-in date" required>
+    <input type="number" id="days" placeholder="No. of Days Staying" min="1">
+    
+    <div class="button-container">
+      <button class="btn btn-primary" onclick="confirmDetails()">Confirm Details</button>
+      
+      <button class="btn btn-secondary" onclick="window.location.href='toursitindex.html'">Back To Packages</button>
+    </div>
+  </div>
+
+  <script>
+    function confirmDetails() {
+      const name = document.getElementById("name").value;
+      const travellers = document.getElementById("travellers").value;
+      const date = document.getElementById("date").value;
+      const days = document.getElementById("days").value;
+      
+      // 
+      if (name && travellers > 0) {
+        localStorage.setItem("name", name);
+        localStorage.setItem("travellers", travellers);
+        localStorage.setItem("date", date);
+        localStorage.setItem("days",days);
+        window.location.href = "touristsummary.html";
+      } else {
+        alert("Please enter both name and number of travellers.");
+      }
+    }
+  </script>
+</body>
+</html>
