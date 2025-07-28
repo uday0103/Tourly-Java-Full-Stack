@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    overflow: hidden; /* Added to prevent scroll on shake animation */
+}
+
+.container {
+    display: flex;
+    width: 900px;
+    height: 550px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.left-panel {
+    flex: 1;
+    background: linear-gradient(to right, #2196F3, #1976D2); /* Blue gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome-text h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.welcome-text p {
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.signup-form {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.signup-form h2 {
+    font-size: 2em;
+    margin-bottom: 2px;
+    margin-top: 20px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #2196F3; /* Blue focus */
+}
+
+.signup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2196F3; /* Blue button */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+}
+
+.signup-button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
+
+.or-divider {
+    position: relative;
+    text-align: center;
+    margin: 25px 0;
+    color: #aaa;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #eee;
+}
+
+.or-divider::before {
+    left: 0;
+}
+
+.or-divider::after {
+    right: 0;
+}
+
+.or-divider span {
+    background-color: #fff;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.social-signup {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px; /* Reduced margin to move it up */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.google-signup {
+    background-color: #fff;
+    color: #555;
+    border-color: #bbb;
+}
+
+.google-signup:hover {
+    background-color: #f2f2f2;
+    border-color: #999;
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.login-prompt {
+    margin-top: 25px;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+.login-prompt a {
+    color: rgb(255, 255, 255); /* Blue link */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* --- New styles for response messages (copied from Login.css and adjusted for top) --- */
+.response-message {
+    position: fixed; /* Fixed position to overlay content */
+    top: 20px; /* Changed from bottom to top */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for true centering */
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; /* Smooth transition */
+    z-index: 1000; /* Ensure it's above other content */
+    min-width: 250px; /* Minimum width for better appearance */
+}
+
+.response-message.show {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInOut 4s forwards; /* Animation for 4 seconds */
+}
+
+.response-message.show-success {
+    background-color: #4CAF50; /* Green for success */
+}
+
+.response-message.show-error {
+    background-color: #F44336; /* Red for error */
+    animation: fadeInOut 4s forwards, shake 0.5s 2; /* Combined with shake for errors */
+}
+
+/* Keyframe Animations */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px); /* Changed to translateY(-20px) */
+    }
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px); /* Changed to translateY(-20px) */
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(-50%) translateX(0); }
+    20%, 60% { transform: translateX(-50%) translateX(-10px); }
+    40%, 80% { transform: translateX(-50%) translateX(10px); }
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        min-height: auto;
+    }
+
+    .left-panel {
+        padding: 30px;
+        height: 250px;
+        justify-content: center;
+    }
+
+    .welcome-text h1 {
+        font-size: 2em;
+    }
+
+    .right-panel {
+        padding: 30px;
+    }
+
+    .response-message {
+        width: 80%; /* Adjust width for smaller screens */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

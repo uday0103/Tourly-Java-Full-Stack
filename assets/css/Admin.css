@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  background: #2c3e50;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background-color: #34495e;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead th, tbody td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
